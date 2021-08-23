@@ -4,23 +4,24 @@ namespace WeDevelop4You\TranslationFinder\Console\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
+use WeDevelop4You\TranslationFinder\Classes\Database\ModelFinder;
 use WeDevelop4You\TranslationFinder\Classes\Manager;
 
-class FindTranslations extends Command
+class DiscoverTranslationModels extends Command
 {
     /**
      * The name and signature of the console command.-
      *
      * @var string
      */
-    protected $signature = 'translation:find';
+    protected $signature = 'translation:discover';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Find the translations in project';
+    protected $description = 'Find the models where translations is used';
 
     /**
      * Create a new command instance.
@@ -40,14 +41,10 @@ class FindTranslations extends Command
     public function handle(): void
     {
         try {
-            $totalFound = Manager::search();
+            $finder = new ModelFinder();
+            $finder->build();
 
-            $this->info('Successfully scanned files');
-            $totalFound->each(function (int $value, string $key) {
-                $environment = ucfirst($key);
-
-                $this->info("In environment [{$environment}] total new found: {$value}");
-            });
+            $this->info('Successfully discovered all models with translation class');
         } catch (Exception $e) {
             $this->error(' failed ');
             $this->line($e->getMessage());

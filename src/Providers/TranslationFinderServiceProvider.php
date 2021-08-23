@@ -4,8 +4,12 @@
 
 
     use Illuminate\Support\ServiceProvider;
-    use WeDevelop4You\TranslationFinder\Console\Commands\FindTranslations;
-    use WeDevelop4You\TranslationFinder\Console\Commands\PublishTranslations;
+    use WeDevelop4You\TranslationFinder\Console\Commands\{
+        FindTranslations,
+        ResetTranslations,
+        PublishTranslations,
+        DiscoverTranslationModels,
+    };
 
     class TranslationFinderServiceProvider extends ServiceProvider
 	{
@@ -32,7 +36,9 @@
             if ($this->app->runningInConsole()) {
                 $this->commands([
                     FindTranslations::class,
+                    ResetTranslations::class,
                     PublishTranslations::class,
+                    DiscoverTranslationModels::class,
                 ]);
             }
         }

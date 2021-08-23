@@ -1,12 +1,13 @@
 <?php
 
 
-	namespace WeDevelop4You\TranslationFinder\Classes;
+	namespace WeDevelop4You\TranslationFinder\Classes\Store;
 
 
-	use Illuminate\Support\Arr;
+	use Illuminate\Filesystem\Filesystem;
+    use Illuminate\Support\Arr;
     use Illuminate\Support\Str;
-    use WeDevelop4You\TranslationFinder\Exceptions\MethodNotCallableException;
+    use WeDevelop4You\TranslationFinder\Classes\Config;
     use WeDevelop4You\TranslationFinder\Resource\Config\Storage;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
@@ -42,28 +43,27 @@
 
         /**
          * @param TranslationKey $translationKey
-         * @throws EnvironmentNotFoundException
-         * @throws UnsupportedFileExtensionException
-         * @throws MethodNotCallableException
+         * @throws EnvironmentNotFoundException | UnsupportedFileExtensionException
          */
         public function addTranslationToFile(TranslationKey $translationKey): void
         {
-            $translationKey->translations->each(function (Translation $translation) use ($translationKey) {
+            $file = new Filesystem();
+
+            $translationKey->translations->each(function (Translation $translation) use ($translationKey, $file) {
                 $storageConfig = $this->getEnvironmentConfig($translationKey->environment);
-                $fullPath = $this->createFullPath($translationKey, $storageConfig, $translation->locale);
+                $fullPath = $this->createFullPath($translationKey->group, $translation->locale, $storageConfig);
 
                 (!$this->filesNeedsToRebuild || in_array($fullPath, $this->rebuildFiles))
-                    ? $translations = call_user_func($this->config->getFileData, $fullPath)
+                    ? $translations = call_user_func($this->config->functions->get, $fullPath)
                     : $this->rebuildFiles[] = $fullPath;
-
 
                 Str::startsWith($translationKey->group, '_')
                     ? $translations[$translationKey->key] = $translation->translation
                     : Arr::set($translations, $translationKey->key, $translation->translation);
 
-                $output = call_user_func($this->config->buildFile, $fullPath, $translations);
+                $output = call_user_func($this->config->functions->set, $fullPath, $translations);
 
-                file_put_contents($fullPath, $output);
+                $file->put($fullPath, $output);
             });
         }
 
@@ -77,29 +77,29 @@
             $environmentConfig = $this->config->environments->firstWhere('name', $environment);
 
             if (is_null($environmentConfig)) {
-                throw new EnvironmentNotFoundException("Environment [{$environment}] doesn't exist in the translation config file");
+                throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
             }
 
             return $environmentConfig->storage;
         }
 
         /**
-         * @param TranslationKey $translationKey
-         * @param Storage $storageConfig
+         * @param string $group
          * @param string $locale
+         * @param Storage $storageConfig
          * @return string
          */
-        private function createFullPath(TranslationKey $translationKey, Storage $storageConfig, string $locale): string
+        private function createFullPath(string $group, string $locale, Storage $storageConfig): string
         {
             $path = $storageConfig->path;
             $extension = $storageConfig->extension;
 
-            if ($translationKey->group == '_json') {
+            if ($group == '_json') {
                 $direction = $path;
                 $fullPath = "{$direction}/$locale.json";
             } else {
                 $direction = "{$path}/{$locale}";
-                $fullPath = "{$direction}/{$translationKey->group}.{$extension}";
+                $fullPath = "{$direction}/{$group}.{$extension}";
             }
 
             if (!is_dir($direction)) {

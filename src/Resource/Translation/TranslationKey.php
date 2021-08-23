@@ -8,7 +8,7 @@
     use Illuminate\Support\Str;
     use Symfony\Component\Finder\SplFileInfo;
 
-    class Found
+    class TranslationKey
 	{
         /**
          * @var string

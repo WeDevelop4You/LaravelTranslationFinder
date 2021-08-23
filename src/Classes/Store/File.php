@@ -1,32 +1,40 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Classes;
+	namespace WeDevelop4You\TranslationFinder\Classes\Store;
 
-	use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
+	use Illuminate\Contracts\Filesystem\FileNotFoundException;
+    use Illuminate\Filesystem\Filesystem;
+    use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
 
     class File
 	{
-	    public const SUPPORTED_FILE_EXTENSIONS = [
+        public const SUPPORTED_FILE_EXTENSIONS = [
             'php',
             'json'
         ];
 
-        /**
+	    /**
          * @param string $fullPath
          * @return array
          * @throws UnsupportedFileExtensionException
          */
-        public static function getFileData(string $fullPath): array
+        public static function get(string $fullPath): array
         {
             $extension = pathinfo($fullPath, PATHINFO_EXTENSION);
 
             switch ($extension) {
                 case 'php':
-                    return file_exists($fullPath) ? include $fullPath : [];
+                    try {
+                        $file = new Filesystem();
+
+                        return $file->getRequire($fullPath);
+                    } catch (FileNotFoundException $e) {
+                        return [];
+                    }
                 case 'json':
                     return json_decode(file_get_contents($fullPath), true);
                 default:
-                    throw new UnsupportedFileExtensionException("File extension [{$extension}] is not supported");
+                    throw new UnsupportedFileExtensionException("Packages extension [{$extension}] is not supported");
             }
         }
 
@@ -36,7 +44,7 @@
          * @return string
          * @throws UnsupportedFileExtensionException
          */
-        public static function buildFile(string $fullPath, array $translations): string
+        public static function set(string $fullPath, array $translations): string
         {
             $extension = pathinfo($fullPath, PATHINFO_EXTENSION);
 
@@ -47,7 +55,7 @@
                 case 'json':
                     return json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
                 default:
-                    throw new UnsupportedFileExtensionException("File extension [{$extension}] is not supported");
+                    throw new UnsupportedFileExtensionException("Packages extension [{$extension}] is not supported");
             }
         }
 	}

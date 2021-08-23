@@ -4,42 +4,46 @@
 
     use Illuminate\Support\Collection;
     use WeDevelop4You\TranslationFinder\Exceptions\ClassNotFoundException;
+    use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
     use WeDevelop4You\TranslationFinder\Exceptions\MethodNotCallableException;
+    use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
+    use WeDevelop4You\TranslationFinder\Resource\Config\Database;
     use WeDevelop4You\TranslationFinder\Resource\Config\Environment;
+    use WeDevelop4You\TranslationFinder\Resource\Config\Functions;
+    use WeDevelop4You\TranslationFinder\Resource\Config\Packages;
 
     /**
      * Class ConfigBuilder
      * @package WeDevelop4You\Translation\Classes
      *
-     * @property-read callable buildFile
-     * @property-read callable getFileData
-     * @property-read callable keySeparator
+     * @property-read Database database
+     * @property-read Packages packages
+     * @property-read Functions functions
+     * @property-read string defaultLocale
      * @property-read bool useTranslationSource
      * @property-read Collection|Environment[] $environments
      */
     class Config
 	{
-	    /**
+        public const DEFAULT_ENVIRONMENT = 'default';
+
+        /**
          * ConfigBuilder constructor.
-         * @throws MethodNotCallableException|ClassNotFoundException
+         *
+         * @throws ClassNotFoundException|EnvironmentNotFoundException|MethodNotCallableException|UnsupportedFileExtensionException
          */
         public function __construct()
         {
-            $this->createFunctions();
-            $this->environments = new Collection();
-            $this->useTranslationSource = config('translation.use_translation_source');
-
-            if (config('translation.environment.separate_environment')) {
-                $environments[] = new Environment('frontend');
-                $environments[] = new Environment('backend');
-            } else {
-                $environments[] = new Environment('default');
-            }
-
-            $this->environments->push(...$environments);
+            $this->setPackages();
+            $this->setDatabase();
+            $this->setFunctions();
+            $this->setProperties();
+            $this->setEnvironments();
         }
 
         /**
+         * Build th hole config
+         *
          * @return Config
          */
         public static function build(): Config
@@ -48,34 +52,93 @@
         }
 
         /**
-         * @throws MethodNotCallableException|ClassNotFoundException
+         * Gets all environment names
+         *
+         * @return Collection
          */
-        private function createFunctions()
+        public static function getEnvironments(): Collection
         {
-            $keyClass = config('translation.key_class');
-            $fileClass = config('translation.file_class');
-
-            if (!class_exists($keyClass) && !class_exists($fileClass)) {
-                throw new ClassNotFoundException();
-            }
-
-            $this->validateFunction($keyClass, 'keySeparator');
-            $this->validateFunction($fileClass, 'getFileData');
-            $this->validateFunction($fileClass, 'buildFile');
+            return collect(config('translation.environment.options', []))->keys();
         }
 
         /**
-         * @throws MethodNotCallableException
+         * Gets the default locale
+         *
+         * @return string
          */
-        private function validateFunction(string $class, string $functionName): void
+        public static function getDefaultLocale(): string
         {
-            $function = "{$class}::{$functionName}";
+            return config('translation.default_locale');
+        }
 
-            if (!is_callable($function)) {
-                throw new MethodNotCallableException("Method [{$function}] not found or callable");
-            }
+        /**
+         * Checks if separated environments is used
+         *
+         * @return bool
+         */
+        public static function isEnvironmentsSeparated(): bool
+        {
+            return config('translation.environment.separate_environment');
+        }
 
-            $this->$functionName = $function;
+        /**
+         * Creates all properties for the config
+         */
+        private function setProperties(): void
+        {
+            $this->defaultLocale = $this->getDefaultLocale();
+            $this->useTranslationSource = config('translation.use_translation_source');
+        }
+
+        /**
+         * Gets all functions from the class
+         *
+         * @throws MethodNotCallableException|ClassNotFoundException
+         */
+        private function setFunctions(): void
+        {
+            $this->functions = new Functions();
+        }
+
+        /**
+         * Creates all environments for the config
+         *
+         * @throws EnvironmentNotFoundException|UnsupportedFileExtensionException
+         */
+        private function setEnvironments(): void
+        {
+            $this->environments = new Collection();
+            $allEnvironments = $this->getEnvironments()->flip();
+
+            $environments = self::isEnvironmentsSeparated()
+                ? $allEnvironments->except(self::DEFAULT_ENVIRONMENT)
+                : $allEnvironments->only(self::DEFAULT_ENVIRONMENT);
+
+            $environments->flip()->each(function ($environment) {
+                $this->environments->push(new Environment($environment));
+            });
+        }
+
+        /**
+         * Creates database config
+         *
+         * @throws EnvironmentNotFoundException
+         */
+        private function setDatabase(): void
+        {
+            $config = (object) config('translation.database');
+
+            $this->database = new Database($config);
+        }
+
+        /**
+         * @throws EnvironmentNotFoundException
+         */
+        private function setPackages(): void
+        {
+            $config = (object) config('translation.packages');
+
+            $this->packages = new Packages($config);
         }
 
         /**

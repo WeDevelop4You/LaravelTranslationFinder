@@ -44,7 +44,8 @@ class PublishTranslations extends Command
 
             $this->info('success');
         } catch (FailedToBuildTranslationFileException $e) {
-            $this->error('failed');
+            $this->error(' failed ');
+            $this->line($e->getMessage());
         }
     }
 }

@@ -7,7 +7,7 @@
 
     /**
      * Class Finder
-     * @package WeDevelop4You\Translation\Classes\Environment
+     * @package WeDevelop4You\TranslationFinder\Resource\Config\Environment
      *
      * @property-read string $path
      * @property-read string $extension

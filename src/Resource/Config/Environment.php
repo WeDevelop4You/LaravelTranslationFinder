@@ -4,12 +4,13 @@
     namespace WeDevelop4You\TranslationFinder\Resource\Config;
 
 
+    use WeDevelop4You\TranslationFinder\Classes\Config;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
 
     /**
      * Class Environment
-     * @package WeDevelop4You\Translation\Classes\Environment
+     * @package WeDevelop4You\TranslationFinder\Resource\Config\Environment
      *
      * @property-read string $name
      * @property-read Finder $finder
@@ -24,8 +25,8 @@
          */
         public function __construct(string $environment)
         {
-            if (!in_array($environment, array_keys(config('translation.environment.options', [])))) {
-                throw new EnvironmentNotFoundException("Environment [{$environment}] doesn't exist in the translation config file");
+            if (!in_array($environment, Config::getEnvironments()->toArray())) {
+                throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
             }
 
             $config = (object) config("translation.environment.options.{$environment}");

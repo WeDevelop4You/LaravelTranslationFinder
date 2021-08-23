@@ -4,13 +4,11 @@
 	namespace WeDevelop4You\TranslationFinder\Resource\Config;
 
     use Illuminate\Support\Str;
-    use WeDevelop4You\TranslationFinder\Classes\File;
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
-    use WeDevelop4You\TranslationFinder\Providers\TranslationFinderServiceProvider;
 
     /**
      * Class Storage
-     * @package WeDevelop4You\Translation\Classes\Environment
+     * @package WeDevelop4You\TranslationFinder\Resource\Config\Environment
      *
      * @property-read string $path
      * @property-read string $extension
@@ -35,10 +33,12 @@
          */
         private function createValidExtension(string $extension): void
         {
-            if (Str::contains($extension, File::SUPPORTED_FILE_EXTENSIONS)) {
-                $this->extension = Str::startsWith($extension, '.') ? $extension : ".{$extension}";
+            $fileClass = config('translation.classes.file');
+
+            if (Str::contains($extension, constant("{$fileClass}::SUPPORTED_FILE_EXTENSIONS"))) {
+                $this->extension = Str::replaceFirst('.', '', $extension);
             } else {
-                throw new UnsupportedFileExtensionException("File extension [{$extension}] is not supported");
+                throw new UnsupportedFileExtensionException("Packages extension [{$extension}] is not supported");
             }
         }
 
