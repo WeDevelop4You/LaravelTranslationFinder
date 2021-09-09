@@ -33,10 +33,10 @@
          */
         private function createValidExtension(string $extension): void
         {
-            $fileClass = config('translation.classes.file');
+            $fileClass = config('translation.helpers.file');
 
             if (Str::contains($extension, constant("{$fileClass}::SUPPORTED_FILE_EXTENSIONS"))) {
-                $this->extension = Str::replaceFirst('.', '', $extension);
+                $this->extension = ltrim($extension, '.');
             } else {
                 throw new UnsupportedFileExtensionException("Packages extension [{$extension}] is not supported");
             }

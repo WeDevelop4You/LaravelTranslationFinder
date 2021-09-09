@@ -84,17 +84,17 @@
             'default_environment' => 'default',
 
             'paths' => [
-                'resources/lang/en/auth.php' => 'backend',
+                'resources/lang/en/auth.php',
                 'resources/lang/en/pagination.php',
                 'resources/lang/en/password.php',
                 'resources/lang/en/validation.php',
             ],
         ],
 
-        'classes' => [
-            'file' => \WeDevelop4You\TranslationFinder\Classes\Store\File::class,
+        'helpers' => [
+            'file' => \WeDevelop4You\TranslationFinder\Helpers\FileHelper::class,
 
-            'separator' => \WeDevelop4You\TranslationFinder\Classes\Find\Separator::class,
+            'key_separator' => \WeDevelop4You\TranslationFinder\Helpers\KeySeparatorHelper::class,
         ],
 
     ];
