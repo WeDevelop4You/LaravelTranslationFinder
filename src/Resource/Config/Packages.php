@@ -4,6 +4,7 @@
 
     use Illuminate\Support\Collection;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
+    use WeDevelop4You\TranslationFinder\Helpers\ValidateHelper;
     use WeDevelop4You\TranslationFinder\Traits\ValidateEnvironmentsWithData;
 
     /**
@@ -15,9 +16,7 @@
      */
 	class Packages
 	{
-	    use ValidateEnvironmentsWithData;
-
-        /**
+	    /**
          * Packages constructor.
          *
          * @param object $config
@@ -26,6 +25,6 @@
         public function __construct(object $config)
         {
             $this->getTranslations = $config->get_translations;
-            $this->paths = $this->validateEnvironmentsWithData($config->paths, $config->default_environment);
+            $this->paths = ValidateHelper::environments($config->paths, $config->default_environment);
         }
     }

@@ -1,21 +1,21 @@
 <?php
 
 
-    namespace WeDevelop4You\TranslationFinder\Classes\Console;
+    namespace WeDevelop4You\TranslationFinder\Helpers;
 
-    use Symfony\Component\Console\Helper\ProgressBar as ConsoleProgressBar;
+    use Symfony\Component\Console\Helper\ProgressBar;
     use Symfony\Component\Console\Output\ConsoleOutput;
 
-    class ProgressBar
+    class ProgressBarHelper
 	{
-	    private ConsoleProgressBar $progressBar;
+	    private ProgressBar $progressBar;
 
         public function __construct(string $message, int $total)
         {
             $output = new ConsoleOutput();
             $section = $output->section();
 
-            $progressBar = new ConsoleProgressBar($section);
+            $progressBar = new ProgressBar($section);
             $progressBar->setFormat("%message%\n %current%/%max% [%bar%] %percent:3s%%\n");
             $progressBar->setMessage($message);
             $progressBar->start($total);

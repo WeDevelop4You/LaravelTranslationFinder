@@ -1,7 +1,7 @@
 <?php
 
 
-	namespace WeDevelop4You\TranslationFinder\Classes\Store;
+	namespace WeDevelop4You\TranslationFinder\Classes;
 
 
 	use Illuminate\Filesystem\Filesystem;

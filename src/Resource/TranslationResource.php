@@ -1,34 +1,34 @@
 <?php
 
 
-    namespace WeDevelop4You\TranslationFinder\Resource\Translation;
+    namespace WeDevelop4You\TranslationFinder\Resource;
 
 
 	use Illuminate\Support\Collection;
     use Illuminate\Support\Str;
     use Symfony\Component\Finder\SplFileInfo;
 
-    class TranslationKey
+    class TranslationResource
 	{
-        /**
-         * @var string
-         */
-        public string $key;
-
         /**
          * @var string
          */
         public string $environment;
 
         /**
-         * @var Collection
+         * @var string
          */
-        public Collection $sources;
+        public string $group;
 
         /**
          * @var string
          */
-        public string $group;
+        public string $key;
+
+        /**
+         * @var Collection
+         */
+        public Collection $sources;
 
         public function __construct()
         {

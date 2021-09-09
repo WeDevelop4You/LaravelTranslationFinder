@@ -17,10 +17,10 @@
 	class Functions
 	{
         private const FUNCTIONS = [
-            'get' => 'fileClass',
-            'set' => 'fileClass',
-            'default' => 'separatorClass',
-            'database' => 'separatorClass',
+            'get' => 'file',
+            'set' => 'file',
+            'default' => 'key_separator',
+            'database' => 'key_separator',
         ];
 
         /**
@@ -30,12 +30,12 @@
          */
         public function __construct()
         {
-            foreach (config('translation.classes') as $name => $class) {
+            foreach (config('translation.helpers') as $name => $class) {
                 if (!class_exists($class)) {
                     throw new ClassNotFoundException("Class [{$class}] doesn't exist");
                 }
 
-                ${"{$name}Class"} = $class;
+                ${$name} = $class;
             }
 
             foreach (self::FUNCTIONS as $functionName => $classVariable) {

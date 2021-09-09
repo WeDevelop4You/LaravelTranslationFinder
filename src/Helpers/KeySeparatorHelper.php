@@ -1,8 +1,8 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Classes\Find;
+	namespace WeDevelop4You\TranslationFinder\Helpers;
 
-	class Separator
+	class KeySeparatorHelper
 	{
         /**
          * @param string $environment

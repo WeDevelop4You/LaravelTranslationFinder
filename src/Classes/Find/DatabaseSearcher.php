@@ -1,20 +1,19 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Classes\Database;
+	namespace WeDevelop4You\TranslationFinder\Classes\Find;
 
-    use App\Models\User;
+	use App\Models\User;
     use Exception;
     use Illuminate\Support\Collection;
     use Illuminate\Support\Facades\App;
-    use WeDevelop4You\TranslationFinder\Classes\Console\ProgressBar;
+    use WeDevelop4You\TranslationFinder\Classes\Database\ModelFinder;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
-    use WeDevelop4You\TranslationFinder\Resource\Translation\DatabaseTranslationKey;
-    use WeDevelop4You\TranslationFinder\Traits\ValidateEnvironmentsWithData;
+    use WeDevelop4You\TranslationFinder\Helpers\ProgressBarHelper;
+    use WeDevelop4You\TranslationFinder\Helpers\ValidateHelper;
+    use WeDevelop4You\TranslationFinder\Resource\TranslationResource;
 
-    class Search
+    class DatabaseSearcher
 	{
-	    use ValidateEnvironmentsWithData;
-
         /**
          * @var Collection
          */
@@ -52,7 +51,7 @@
                 $columnEnvironment = $this->getTranslationColumns(new $modelClass());
 
                 if (App::runningInConsole()) {
-                    $progressBar = new ProgressBar("Searching database rows in model: {$modelClass}", $modelClass::count());
+                    $progressBar = new ProgressBarHelper("Searching database rows in model: {$modelClass}", $modelClass::count());
                 } else {
                     $progressBar = null;
                 }
@@ -86,7 +85,7 @@
         {
             $defaultEnvironment = $this->defaultEnvironment;
 
-            return $this->validateEnvironmentsWithData($model->translationColumns(), $defaultEnvironment);
+            return ValidateHelper::environments($model->translationColumns(), $defaultEnvironment);
         }
 
         /**
@@ -101,7 +100,7 @@
 
                 list($group, $key) = call_user_func($this->databaseKeySeparator, $environment, $value);
 
-                $translation = new DatabaseTranslationKey();
+                $translation = new TranslationResource();
                 $translation->environment = $environment;
                 $translation->group = $group;
                 $translation->key = $key;
@@ -112,4 +111,4 @@
 
             return $translations ?? [];
         }
-    }
+	}

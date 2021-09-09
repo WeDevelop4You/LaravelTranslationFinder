@@ -6,8 +6,7 @@
     use Exception;
     use Illuminate\Contracts\Filesystem\FileNotFoundException;
     use Illuminate\Support\Collection;
-    use WeDevelop4You\TranslationFinder\Classes\Find\Search;
-    use WeDevelop4You\TranslationFinder\Classes\Store\Builder;
+    use WeDevelop4You\TranslationFinder\Classes\Find\Finder;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
     use WeDevelop4You\TranslationFinder\Exceptions\ExistingTranslationKeyException;
     use WeDevelop4You\TranslationFinder\Exceptions\FailedToBuildTranslationFileException;
@@ -28,7 +27,7 @@
         public static function search(): Collection
         {
             try {
-                $searcher = new Search();
+                $searcher = new Finder();
 
                 return $searcher->saveCounter;
             } catch (Exception $e) {
@@ -108,7 +107,7 @@
          * @param string|null $environment
          * @param string|null $locale
          * @return bool
-         * @throws EnvironmentNotFoundException|FailedToBuildTranslationFileException|UnsupportedLocaleException|ExistingTranslationKeyException|ParameterRequiredException
+         * @throws EnvironmentNotFoundException|FailedToBuildTranslationFileException|UnsupportedLocaleException|ExistingTranslationKeyException|ParameterRequiredException|FileNotFoundException
          */
         public static function createAddAndPublish(string $key, string $text, string $group = '_json', ?string $environment = null, ?string $locale = null): bool
         {

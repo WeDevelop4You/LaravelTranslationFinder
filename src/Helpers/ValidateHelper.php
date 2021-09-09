@@ -1,12 +1,12 @@
 <?php
 
-    namespace WeDevelop4You\TranslationFinder\Traits;
+	namespace WeDevelop4You\TranslationFinder\Helpers;
 
 	use Illuminate\Support\Collection;
     use WeDevelop4You\TranslationFinder\Classes\Config;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
 
-    trait ValidateEnvironmentsWithData
+    class ValidateHelper
 	{
         /**
          * @param array $data
@@ -14,7 +14,7 @@
          * @return Collection
          * @throws EnvironmentNotFoundException
          */
-        public function validateEnvironmentsWithData(array $data, string $defaultEnvironment): Collection
+        public static function environments(array $data, string $defaultEnvironment): Collection
         {
             $dataWithEnvironments = new Collection();
             $environments = Config::getEnvironments()->toArray();

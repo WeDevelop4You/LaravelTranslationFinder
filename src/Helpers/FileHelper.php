@@ -1,12 +1,12 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Classes\Store;
+	namespace WeDevelop4You\TranslationFinder\Helpers;
 
 	use Illuminate\Contracts\Filesystem\FileNotFoundException;
     use Illuminate\Filesystem\Filesystem;
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
 
-    class File
+    class FileHelper
 	{
         public const SUPPORTED_FILE_EXTENSIONS = [
             'php',
