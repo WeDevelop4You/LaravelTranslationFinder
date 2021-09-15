@@ -15,9 +15,10 @@ class CreateTranslationKeysTable extends Migration
     {
         Schema::create('translation_keys', function (Blueprint $table) {
             $table->id();
-            $table->enum('environment', ['backend', 'frontend', 'default']);
+            $table->string('environment');
             $table->string('group');
             $table->string('key');
+            $table->json('tags')->nullable();
             $table->timestamps();
         });
     }

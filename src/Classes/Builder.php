@@ -4,13 +4,14 @@
 	namespace WeDevelop4You\TranslationFinder\Classes;
 
 
-	use Illuminate\Filesystem\Filesystem;
+	use Illuminate\Contracts\Filesystem\FileNotFoundException;
+    use Illuminate\Filesystem\Filesystem;
     use Illuminate\Support\Arr;
     use Illuminate\Support\Str;
-    use WeDevelop4You\TranslationFinder\Classes\Config;
+    use WeDevelop4You\TranslationFinder\Classes\Bootstrap\TranslationPackagesPath;
+    use WeDevelop4You\TranslationFinder\Helpers\FileContentHelper;
     use WeDevelop4You\TranslationFinder\Resource\Config\Storage;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
-    use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
     use WeDevelop4You\TranslationFinder\Models\Translation;
     use WeDevelop4You\TranslationFinder\Models\TranslationKey;
 
@@ -32,6 +33,11 @@
         private bool $filesNeedsToRebuild;
 
         /**
+         * @var TranslationPackagesPath
+         */
+        private TranslationPackagesPath $packagesPath;
+
+        /**
          * Builder constructor.
          * @param bool $filesNeedsToRebuild
          */
@@ -39,19 +45,22 @@
         {
             $this->config = Config::build();
             $this->filesNeedsToRebuild = $filesNeedsToRebuild;
+
+            if ($this->config->packages->getTranslations) {
+                $this->packagesPath = new TranslationPackagesPath();
+            }
         }
 
         /**
          * @param TranslationKey $translationKey
-         * @throws EnvironmentNotFoundException | UnsupportedFileExtensionException
+         * @throws EnvironmentNotFoundException|FileNotFoundException
          */
         public function addTranslationToFile(TranslationKey $translationKey): void
         {
             $file = new Filesystem();
 
             $translationKey->translations->each(function (Translation $translation) use ($translationKey, $file) {
-                $storageConfig = $this->getEnvironmentConfig($translationKey->environment);
-                $fullPath = $this->createFullPath($translationKey->group, $translation->locale, $storageConfig);
+                $fullPath = $this->createFullPath($translationKey, $translation->locale);
 
                 (!$this->filesNeedsToRebuild || in_array($fullPath, $this->rebuildFiles))
                     ? $translations = call_user_func($this->config->functions->get, $fullPath)
@@ -84,19 +93,36 @@
         }
 
         /**
-         * @param string $group
+         * @param TranslationKey $translationKey
          * @param string $locale
-         * @param Storage $storageConfig
          * @return string
+         * @throws EnvironmentNotFoundException|FileNotFoundException
          */
-        private function createFullPath(string $group, string $locale, Storage $storageConfig): string
+        private function createFullPath(TranslationKey $translationKey, string $locale): string
         {
-            $path = $storageConfig->path;
-            $extension = $storageConfig->extension;
+            $group = $translationKey->group;
 
-            if ($group == '_json') {
+            if (isset($this->packagesPath)) {
+                $packagesPath = $this->packagesPath->has($translationKey->id);
+            }
+
+            if (isset($packagesPath) && $packagesPath) {
+                $pathLevelBack = $group === Config::DEFAULT_GROUP ? 1 : 2;
+
+                $path = dirname($packagesPath, $pathLevelBack);
+                $extension = pathinfo($packagesPath, PATHINFO_EXTENSION);
+            } else {
+                $storageConfig = $this->getEnvironmentConfig($translationKey->environment);
+
+                $path = $storageConfig->path;
+                $extension = $storageConfig->extension;
+            }
+
+            if ($group === Config::DEFAULT_GROUP) {
+                $extension = FileContentHelper::FILE_EXTENSION_json;
+
                 $direction = $path;
-                $fullPath = "{$direction}/$locale.json";
+                $fullPath = "{$direction}/{$locale}.{$extension}";
             } else {
                 $direction = "{$path}/{$locale}";
                 $fullPath = "{$direction}/{$group}.{$extension}";

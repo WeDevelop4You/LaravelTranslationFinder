@@ -20,6 +20,7 @@
                         'ignore_groups' => [
                             'auth'
                         ],
+                        'tag' => 'project',
                     ],
 
                     'storage' => [
@@ -41,6 +42,7 @@
                         'ignore_groups' => [
                             'auth'
                         ],
+                        'tag' => 'project',
                     ],
 
                     'storage' => [
@@ -58,6 +60,7 @@
                             't',
                         ],
                         'ignore_groups' => [],
+                        'tag' => 'project',
                     ],
 
                     'storage' => [
@@ -68,10 +71,12 @@
             ],
         ],
 
-        'use_translation_source' => true,
+        'use_translation_source' => false,
 
         'database' => [
-            'search_models' => true,
+            'search_models' => false,
+
+            'tag' => 'database',
 
             'default_environment' => 'default',
 
@@ -79,20 +84,19 @@
         ],
 
         'packages' => [
-            'get_translations' => true,
+            'get_translations' => false,
+
+            'tag' => 'packages',
+
+            'use_packages_name_tags' => true,
 
             'default_environment' => 'default',
 
-            'paths' => [
-                'resources/lang/en/auth.php',
-                'resources/lang/en/pagination.php',
-                'resources/lang/en/password.php',
-                'resources/lang/en/validation.php',
-            ],
+            'paths' => [],
         ],
 
         'helpers' => [
-            'file' => \WeDevelop4You\TranslationFinder\Helpers\FileHelper::class,
+            'file_content' => \WeDevelop4You\TranslationFinder\Helpers\FileContentHelper::class,
 
             'key_separator' => \WeDevelop4You\TranslationFinder\Helpers\KeySeparatorHelper::class,
         ],

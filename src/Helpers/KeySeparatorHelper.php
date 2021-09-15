@@ -2,7 +2,9 @@
 
 	namespace WeDevelop4You\TranslationFinder\Helpers;
 
-	class KeySeparatorHelper
+	use WeDevelop4You\TranslationFinder\Classes\Config;
+
+    class KeySeparatorHelper
 	{
         /**
          * @param string $environment
@@ -33,6 +35,6 @@
                 return explode('.', $translationKey, 2);
             }
 
-            return ['_json', $translationKey];
+            return [Config::DEFAULT_GROUP, $translationKey];
         }
 	}

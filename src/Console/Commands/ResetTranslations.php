@@ -6,7 +6,9 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Schema;
 use WeDevelop4You\TranslationFinder\Classes\Manager;
+use WeDevelop4You\TranslationFinder\Helpers\TruncateTableHelper;
 use WeDevelop4You\TranslationFinder\Models\Translation;
+use WeDevelop4You\TranslationFinder\Models\TranslationInformation;
 use WeDevelop4You\TranslationFinder\Models\TranslationKey;
 use WeDevelop4You\TranslationFinder\Models\TranslationSource;
 
@@ -43,11 +45,7 @@ class ResetTranslations extends Command
      */
     public function handle(): void
     {
-        TranslationSource::truncate();
-        Translation::truncate();
-        Schema::disableForeignKeyConstraints();
-        TranslationKey::truncate();
-        Schema::enableForeignKeyConstraints();
+        TruncateTableHelper::all();
 
         $this->info('Database translation tables have been reset');
     }

@@ -2,14 +2,14 @@
 
 	namespace WeDevelop4You\TranslationFinder\Classes\Find;
 
-	use App\Models\User;
     use Exception;
     use Illuminate\Support\Collection;
     use Illuminate\Support\Facades\App;
-    use WeDevelop4You\TranslationFinder\Classes\Database\ModelFinder;
+    use WeDevelop4You\TranslationFinder\Classes\Bootstrap\TranslationInterfaceFinder;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
     use WeDevelop4You\TranslationFinder\Helpers\ProgressBarHelper;
     use WeDevelop4You\TranslationFinder\Helpers\ValidateHelper;
+    use WeDevelop4You\TranslationFinder\Resource\Config\Database;
     use WeDevelop4You\TranslationFinder\Resource\TranslationResource;
 
     class DatabaseSearcher
@@ -20,9 +20,9 @@
         private Collection $modelClasses;
 
         /**
-         * @var string
+         * @var Database
          */
-        private string $defaultEnvironment;
+        private Database $databaseConfig;
 
         /**
          * @var string
@@ -33,13 +33,11 @@
          * Search constructor.
          * @throws Exception
          */
-        public function __construct(string $databaseKeySeparator, string $defaultEnvironment)
+        public function __construct(Database $databaseConfig, string $databaseKeySeparator)
         {
-            $finder = new ModelFinder();
-
-            $this->defaultEnvironment = $defaultEnvironment;
+            $this->databaseConfig = $databaseConfig;
             $this->databaseKeySeparator = $databaseKeySeparator;
-            $this->modelClasses = new Collection($finder->get());
+            $this->modelClasses = (new TranslationInterfaceFinder)->get(true);
         }
 
         /**
@@ -47,8 +45,8 @@
          */
         public function find(): Collection
         {
-            return $this->modelClasses->flatMap(function($modelClass) {
-                $columnEnvironment = $this->getTranslationColumns(new $modelClass());
+            return $this->modelClasses->flatMap(function ($modelClass) {
+                $columnEnvironment = $this->getTranslationEnvironments(new $modelClass());
 
                 if (App::runningInConsole()) {
                     $progressBar = new ProgressBarHelper("Searching database rows in model: {$modelClass}", $modelClass::count());
@@ -59,7 +57,7 @@
                 if (!is_null($columnEnvironment)) {
                     $columns = $columnEnvironment->keys()->toArray();
 
-                    $modelTranslations = User::all($columns)->flatMap(function($data) use ($columnEnvironment, $progressBar) {
+                    $modelTranslations = $modelClass::all($columns)->flatMap(function($data) use ($columnEnvironment, $progressBar) {
                         if (isset($progressBar)) {
                             $progressBar->add();
                         }
@@ -77,15 +75,13 @@
         }
 
         /**
-         * @param $model
+         * @param object $model
          * @return Collection
          * @throws EnvironmentNotFoundException
          */
-        private function getTranslationColumns($model): Collection
+        private function getTranslationEnvironments(object $model): Collection
         {
-            $defaultEnvironment = $this->defaultEnvironment;
-
-            return ValidateHelper::environments($model->translationColumns(), $defaultEnvironment);
+            return ValidateHelper::environments($model->translationColumns(), $this->databaseConfig->environment);
         }
 
         /**
@@ -104,6 +100,8 @@
                 $translation->environment = $environment;
                 $translation->group = $group;
                 $translation->key = $key;
+
+                $translation->setTags($this->databaseConfig->tag);
 
                 $translations[] = $translation;
 

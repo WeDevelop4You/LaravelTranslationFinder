@@ -7,6 +7,10 @@
 	use Illuminate\Support\Collection;
     use Illuminate\Support\Str;
     use Symfony\Component\Finder\SplFileInfo;
+    use WeDevelop4You\TranslationFinder\Classes\Find\DatabaseSearcher;
+    use WeDevelop4You\TranslationFinder\Classes\Find\PackagesSearcher;
+    use WeDevelop4You\TranslationFinder\Classes\Find\ProjectSearcher;
+    use WeDevelop4You\TranslationFinder\Exceptions\ParameterRequiredException;
 
     class TranslationResource
 	{
@@ -26,9 +30,26 @@
         public string $key;
 
         /**
+         * @var array
+         */
+        private array $tags;
+
+        /**
+         * @var string
+         */
+        public string $value;
+
+        /**
+         * @var string
+         */
+        public string $path;
+
+
+        /**
          * @var Collection
          */
         public Collection $sources;
+
 
         public function __construct()
         {
@@ -36,11 +57,34 @@
         }
 
         /**
+         * @return array|null
+         */
+        public function getTags(): ?array
+        {
+            return $this->tags ?? null;
+        }
+
+        /**
+         * @param array|string|null $tags
+         */
+        public function setTags($tags): void
+        {
+            $tags = is_array($tags) ? $tags : [$tags];
+
+            foreach ($tags as $tag) {
+                if (!empty($tag)) {
+                    $this->tags[] = $tag;
+                }
+            }
+        }
+
+
+        /**
          * @param SplFileInfo $file
          * @param $search
-         * @return void
+         * @return TranslationResource
          */
-        public function findLineNumberInFile(SplFileInfo $file, $search): void
+        public function findLineNumberInFile(SplFileInfo $file, $search): TranslationResource
         {
             $lines = file($file->getRealPath());
 
@@ -54,5 +98,7 @@
                     }
                 }
             }
+
+            return $this;
         }
-	}
+    }

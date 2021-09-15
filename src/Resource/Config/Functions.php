@@ -17,8 +17,8 @@
 	class Functions
 	{
         private const FUNCTIONS = [
-            'get' => 'file',
-            'set' => 'file',
+            'get' => 'file_content',
+            'set' => 'file_content',
             'default' => 'key_separator',
             'database' => 'key_separator',
         ];

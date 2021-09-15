@@ -10,6 +10,7 @@
         PublishTranslations,
         DiscoverTranslationModels,
     };
+    use WeDevelop4You\TranslationFinder\Classes\Config;
 
     class TranslationFinderServiceProvider extends ServiceProvider
 	{
@@ -30,9 +31,25 @@
          */
         public function boot()
         {
-            $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+            $this->LoadMigrations();
+            $this->loadArtisanCommands();
             $this->publishes([__DIR__.'/../../config/translation.php' => config_path('translation.php')], 'translation-finder');
+        }
 
+        private function LoadMigrations()
+        {
+            $this->loadMigrationsFrom([
+                __DIR__.'/../../database/migrations/2021_07_21_000001_create_translation_keys_table.php',
+                __DIR__.'/../../database/migrations/2021_07_21_000002_create_translations_table.php'
+            ]);
+
+            if (Config::isTranslationsSourceUsed()) {
+                $this->loadMigrationsFrom(__DIR__.'/../../database/migrations/2021_07_21_000003_create_translation_sources_table.php');
+            }
+        }
+
+        private function loadArtisanCommands()
+        {
             if ($this->app->runningInConsole()) {
                 $this->commands([
                     FindTranslations::class,

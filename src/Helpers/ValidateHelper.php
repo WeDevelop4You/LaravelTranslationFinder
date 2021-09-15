@@ -5,9 +5,32 @@
 	use Illuminate\Support\Collection;
     use WeDevelop4You\TranslationFinder\Classes\Config;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
+    use WeDevelop4You\TranslationFinder\Exceptions\ParameterRequiredException;
 
     class ValidateHelper
 	{
+        /**
+         * Gets the environment and checks if the environment is valid
+         *
+         * @param string|null $environment
+         * @return string
+         * @throws EnvironmentNotFoundException|ParameterRequiredException
+         */
+        public static function environment(?string $environment = null): string
+        {
+            if (is_null($environment)) {
+                if (Config::isEnvironmentsSeparated()) {
+                    throw new ParameterRequiredException("The [environment] parameter is required when using separated environments.");
+                } else {
+                    $environment = Config::DEFAULT_ENVIRONMENT;
+                }
+            } else if (!in_array($environment, Config::getEnvironments()->toArray())) {
+                throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
+            }
+
+            return $environment;
+        }
+
         /**
          * @param array $data
          * @param string $defaultEnvironment

@@ -4,8 +4,7 @@ namespace WeDevelop4You\TranslationFinder\Console\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use WeDevelop4You\TranslationFinder\Classes\Database\ModelFinder;
-use WeDevelop4You\TranslationFinder\Classes\Manager;
+use WeDevelop4You\TranslationFinder\Classes\Bootstrap\TranslationInterfaceFinder;
 
 class DiscoverTranslationModels extends Command
 {
@@ -41,8 +40,7 @@ class DiscoverTranslationModels extends Command
     public function handle(): void
     {
         try {
-            $finder = new ModelFinder();
-            $finder->build();
+            TranslationInterfaceFinder::run();
 
             $this->info('Successfully discovered all models with translation class');
         } catch (Exception $e) {

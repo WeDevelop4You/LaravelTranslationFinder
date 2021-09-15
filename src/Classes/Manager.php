@@ -4,16 +4,12 @@
 	namespace WeDevelop4You\TranslationFinder\Classes;
 
     use Exception;
-    use Illuminate\Contracts\Filesystem\FileNotFoundException;
     use Illuminate\Support\Collection;
-    use WeDevelop4You\TranslationFinder\Classes\Find\Finder;
+    use WeDevelop4You\TranslationFinder\Classes\Find\TranslationFinder;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
-    use WeDevelop4You\TranslationFinder\Exceptions\ExistingTranslationKeyException;
     use WeDevelop4You\TranslationFinder\Exceptions\FailedToBuildTranslationFileException;
     use WeDevelop4You\TranslationFinder\Exceptions\FailedToSearchTranslationsException;
-    use WeDevelop4You\TranslationFinder\Exceptions\ParameterRequiredException;
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
-    use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedLocaleException;
     use WeDevelop4You\TranslationFinder\Models\TranslationKey;
 
     class Manager
@@ -27,7 +23,7 @@
         public static function search(): Collection
         {
             try {
-                $searcher = new Finder();
+                $searcher = new TranslationFinder();
 
                 return $searcher->saveCounter;
             } catch (Exception $e) {
@@ -81,37 +77,5 @@
         public static function translation(): Translation
         {
             return new Translation();
-        }
-
-        /**
-         * Adds or updates a translation and then publish the translation
-         *
-         * @param TranslationKey $translationKey
-         * @param string $text
-         * @param string|null $locale
-         * @return bool
-         * @throws FailedToBuildTranslationFileException|UnsupportedLocaleException|FileNotFoundException
-         */
-        public static function addOrUpdateAndPublish(TranslationKey $translationKey, string $text, ?string $locale = null): bool
-        {
-            self::translation()->addOrUpdate($translationKey, $text, $locale);
-            return self::publish($translationKey);
-        }
-
-        /**
-         * Creates a new translation key, adds a translation to it and then publish the translation
-         *
-         * @param string $key
-         * @param string $text
-         * @param string $group
-         * @param string|null $environment
-         * @param string|null $locale
-         * @return bool
-         * @throws EnvironmentNotFoundException|FailedToBuildTranslationFileException|UnsupportedLocaleException|ExistingTranslationKeyException|ParameterRequiredException|FileNotFoundException
-         */
-        public static function createAddAndPublish(string $key, string $text, string $group = '_json', ?string $environment = null, ?string $locale = null): bool
-        {
-            $translationKey = self::translation()->createAndAdd($key, $text, $group, $environment, $locale);
-            return self::publish($translationKey);
         }
 	}

@@ -8,31 +8,39 @@
     use WeDevelop4You\TranslationFinder\Exceptions\ExistingTranslationKeyException;
     use WeDevelop4You\TranslationFinder\Exceptions\ParameterRequiredException;
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedLocaleException;
+    use WeDevelop4You\TranslationFinder\Helpers\ValidateHelper;
     use WeDevelop4You\TranslationFinder\Models\TranslationKey;
 
     class Translation
 	{
+        /**
+         * @var TranslationKey|null
+         */
+        public TranslationKey $translationKey;
+
         /**
          * Creates a new translation key
          *
          * @param string $key
          * @param string $group
          * @param string|null $environment
-         * @return TranslationKey
+         * @return Translation
          * @throws ParameterRequiredException|EnvironmentNotFoundException|ExistingTranslationKeyException
          */
-        public function create(string $key, string $group = '_json', ?string $environment = null): TranslationKey
+        public function create(string $key, string $group = Config::DEFAULT_GROUP, ?string $environment = null): Translation
         {
-            $environment = $this->createValidEnvironment($environment);
+            $environment = ValidateHelper::environment($environment);
 
-            if ($this->doesNotExist($environment, $group, $key)) {
+            if ($this->doesNotExist($key, $group, $environment)) {
                 $translationKey = new TranslationKey();
                 $translationKey->environment = $environment;
                 $translationKey->group = $group;
                 $translationKey->key = $key;
                 $translationKey->save();
 
-                return $translationKey;
+                $this->translationKey = $translationKey;
+
+                return $this;
             } else {
                 throw new ExistingTranslationKeyException("The translation key with [{$environment}] as environment, [{$group}] as group and [{$key}] as key already exists");
             }
@@ -41,26 +49,27 @@
         /**
          * Adds or updates a translation to a translation key
          *
-         * @param TranslationKey $translationKey
          * @param string $text
          * @param string|null $locale
          * @return bool
          * @throws UnsupportedLocaleException
-         * @throws FileNotFoundException
+         * @throws FileNotFoundException|ParameterRequiredException
          */
-        public function addOrUpdate(TranslationKey $translationKey, string $text, ?string $locale = null): bool
+        public function addOrUpdate(string $text, ?string $locale = null): bool
         {
+            $this->checkIfTranslationKeyIsset();
+
             if (is_null($locale)) {
                 $locale = Config::getDefaultLocale();
             }
 
-            $locales = (new Filesystem)->getRequire(__DIR__.'../../locales.php');
+            $locales = (new Filesystem)->getRequire(__DIR__.'/../../locales.php');
 
             if (!in_array($locale, $locales)) {
                 throw new UnsupportedLocaleException("This [{$locale}] locale is not a valid locale");
             }
 
-            $translation = $translationKey->translations()->where('locale', $locale)->firstOrNew();
+            $translation = $this->translationKey->getOrCreateTranslation($locale);
             $translation->locale = $locale;
             $translation->translation = $text;
 
@@ -68,43 +77,57 @@
         }
 
         /**
-         * Creates a new translation key and adds a translation to it
-         *
-         * @param string $key
-         * @param string $text
-         * @param string $group
-         * @param string|null $environment
-         * @param string|null $locale
-         * @return TranslationKey
-         * @throws EnvironmentNotFoundException|ExistingTranslationKeyException|ParameterRequiredException|UnsupportedLocaleException|FileNotFoundException
+         * @param string $tag
+         * @return Translation
+         * @throws ParameterRequiredException
          */
-        public function createAndAdd(string $key, string $text, string $group = '_json', ?string $environment = null, ?string $locale = null): TranslationKey
+        public function addTag(string $tag): Translation
         {
-            $translationKey = $this->create($key, $group, $environment);
-            $this->addOrUpdate($translationKey, $text, $locale);
+            $this->checkIfTranslationKeyIsset();
 
-            return $translationKey;
+            $tags = $this->translationKey->tags;
+
+            return $this->updateTags($tags[$tag]);
+        }
+
+        /**
+         * @param array|null $tags
+         * @return Translation
+         * @throws ParameterRequiredException
+         */
+        public function updateTags(?array $tags): Translation
+        {
+            $this->checkIfTranslationKeyIsset();
+
+            $this->translationKey->tags = $tags;
+            $this->translationKey->save();
+
+            return $this;
         }
 
         /**
          * Checks if the translation key doesn't exist anymore in the hole project and then deletes it
          *
-         * @param TranslationKey $key
+         * @throws ParameterRequiredException
          */
-        public function delete(TranslationKey $key)
+        public function delete()
         {
+            $this->checkIfTranslationKeyIsset();
+
             //TODO delete key only when the key is never found in the project
         }
 
         /**
          * Deletes the translation key
          *
-         * @param TranslationKey $key
          * @return bool
+         * @throws ParameterRequiredException
          */
-        public function forceDelete(TranslationKey $key): bool
+        public function forceDelete(): bool
         {
-            return $key->delete();
+            $this->checkIfTranslationKeyIsset();
+
+            return $this->translationKey->delete();
         }
 
         /**
@@ -116,11 +139,20 @@
          * @return bool
          * @throws EnvironmentNotFoundException|ParameterRequiredException
          */
-        public function exists(string $key, string $group = '_json', ?string $environment = null): bool
+        public function exists(string $key, string $group = Config::DEFAULT_GROUP, ?string $environment = null): bool
         {
-            $environment = $this->createValidEnvironment($environment);
+            $translationKey = TranslationKey::where('environment', ValidateHelper::environment($environment))
+                ->where('group', $group)
+                ->where('key', $key)
+                ->first();
 
-            return TranslationKey::where('environment', $environment)->where('group', $group)->where('key', $key)->exists();
+            if (is_null($translationKey)) {
+                return false;
+            }
+
+            $this->translationKey = $translationKey;
+
+            return true;
         }
 
         /**
@@ -132,30 +164,18 @@
          * @return bool
          * @throws EnvironmentNotFoundException|ParameterRequiredException
          */
-        public function doesNotExist(string $key, string $group = '_json', ?string $environment = null): bool
+        public function doesNotExist(string $key, string $group = Config::DEFAULT_GROUP, ?string $environment = null): bool
         {
-            return !$this->exists($environment, $group, $key);
+            return !$this->exists($key, $group, $environment);
         }
 
         /**
-         * Gets the environment and checks if the environment is valid
-         *
-         * @param string|null $environment
-         * @return string
-         * @throws EnvironmentNotFoundException|ParameterRequiredException
+         * @throws ParameterRequiredException
          */
-        private function createValidEnvironment(?string $environment = null): string
+        private function checkIfTranslationKeyIsset()
         {
-            if (is_null($environment)) {
-                if (Config::isEnvironmentsSeparated()) {
-                    throw new ParameterRequiredException("The [environment] parameter is required when using separated environments.");
-                } else {
-                    $environment = Config::DEFAULT_ENVIRONMENT;
-                }
-            } else if (!in_array($environment, Config::getEnvironments()->toArray())) {
-                throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
+            if (!isset($this->translationKey)) {
+                throw new ParameterRequiredException("Parameter [translationKey] wasn't set");
             }
-
-            return $environment;
         }
 	}

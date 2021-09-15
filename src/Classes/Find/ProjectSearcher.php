@@ -7,13 +7,14 @@
     use Illuminate\Support\Str;
     use Symfony\Component\Finder\Finder as FileFinder;
     use Symfony\Component\Finder\SplFileInfo;
+    use WeDevelop4You\TranslationFinder\Classes\Config;
     use WeDevelop4You\TranslationFinder\Helpers\ProgressBarHelper;
     use WeDevelop4You\TranslationFinder\Resource\Config\Finder;
     use WeDevelop4You\TranslationFinder\Resource\TranslationResource;
 
     class ProjectSearcher
 	{
-        private const DEFAULT_EXCLUDE_PATHS = [
+	    private const DEFAULT_EXCLUDE_PATHS = [
             'vendor',
             'storage/framework/views'
         ];
@@ -110,7 +111,7 @@
                         }
 
                         if (!(Str::contains($translationKey, '::') && Str::contains($translationKey, '.')) || Str::contains($translationKey, ' ')) {
-                            $this->create('_json', $translationKey, $file, $matches[0][$index]);
+                            $this->create(Config::DEFAULT_GROUP, $translationKey, $file, $matches[0][$index]);
                         }
                     }
                 }
@@ -142,6 +143,8 @@
                 $translation->environment = $this->environment;
                 $translation->group = $group;
                 $translation->key = $key;
+
+                $translation->setTags($this->finderConfig->tag);
 
                 $this->translations->push($translation);
             }

@@ -1,6 +1,6 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Classes\Database;
+	namespace WeDevelop4You\TranslationFinder\Interfaces;
 
     interface Translation
 	{

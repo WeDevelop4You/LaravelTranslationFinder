@@ -33,7 +33,7 @@
          */
         private function createValidExtension(string $extension): void
         {
-            $fileClass = config('translation.helpers.file');
+            $fileClass = config('translation.helpers.file_content');
 
             if (Str::contains($extension, constant("{$fileClass}::SUPPORTED_FILE_EXTENSIONS"))) {
                 $this->extension = ltrim($extension, '.');

@@ -10,6 +10,7 @@
      * Class Finder
      * @package WeDevelop4You\TranslationFinder\Resource\Config\Database
      *
+     * @property-read string $tag
      * @property-read bool searchModels
      * @property-read string $environment
      */
@@ -23,6 +24,7 @@
          */
 	    public function __construct(object $config)
         {
+            $this->tag = $config->tag;
             $this->searchModels = $config->search_models;
             $this->setEnvironment($config->default_environment);
 

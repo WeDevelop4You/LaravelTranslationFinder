@@ -3,9 +3,13 @@
     namespace WeDevelop4You\TranslationFinder\Classes;
 
     use Illuminate\Support\Collection;
+    use Illuminate\Support\Facades\Schema;
+    use phpDocumentor\Reflection\Types\Boolean;
     use WeDevelop4You\TranslationFinder\Exceptions\ClassNotFoundException;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
+    use WeDevelop4You\TranslationFinder\Exceptions\FileDoesNotExistException;
     use WeDevelop4You\TranslationFinder\Exceptions\MethodNotCallableException;
+    use WeDevelop4You\TranslationFinder\Exceptions\SettingNotAllowedException;
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
     use WeDevelop4You\TranslationFinder\Resource\Config\Database;
     use WeDevelop4You\TranslationFinder\Resource\Config\Environment;
@@ -25,12 +29,16 @@
      */
     class Config
 	{
+        public const DEFAULT_GROUP = '_json';
+
         public const DEFAULT_ENVIRONMENT = 'default';
+
+        private const SOURCE_TABLE = 'translation_sources';
 
         /**
          * ConfigBuilder constructor.
          *
-         * @throws ClassNotFoundException|EnvironmentNotFoundException|MethodNotCallableException|UnsupportedFileExtensionException
+         * @throws EnvironmentNotFoundException|UnsupportedFileExtensionException|SettingNotAllowedException|FileDoesNotExistException
          */
         public function __construct()
         {
@@ -39,6 +47,7 @@
             $this->setFunctions();
             $this->setProperties();
             $this->setEnvironments();
+            $this->checkIfTableExists();
         }
 
         /**
@@ -72,6 +81,14 @@
         }
 
         /**
+         * @return bool
+         */
+        public static function isTranslationsSourceUsed(): bool
+        {
+            return config('translation.use_translation_source');
+        }
+
+        /**
          * Checks if separated environments is used
          *
          * @return bool
@@ -87,13 +104,11 @@
         private function setProperties(): void
         {
             $this->defaultLocale = $this->getDefaultLocale();
-            $this->useTranslationSource = config('translation.use_translation_source');
+            $this->useTranslationSource = self::isTranslationsSourceUsed();
         }
 
         /**
          * Gets all functions from the class
-         *
-         * @throws MethodNotCallableException|ClassNotFoundException
          */
         private function setFunctions(): void
         {
@@ -132,13 +147,23 @@
         }
 
         /**
-         * @throws EnvironmentNotFoundException
+         * @throws EnvironmentNotFoundException|FileDoesNotExistException
          */
         private function setPackages(): void
         {
             $config = (object) config('translation.packages');
 
             $this->packages = new Packages($config);
+        }
+
+        /**
+         * @throws SettingNotAllowedException
+         */
+        private function checkIfTableExists()
+        {
+            if ($this->useTranslationSource && !Schema::hasTable(self::SOURCE_TABLE)) {
+                throw (new SettingNotAllowedException())->tableDoesNotExist(self::SOURCE_TABLE);
+            }
         }
 
         /**

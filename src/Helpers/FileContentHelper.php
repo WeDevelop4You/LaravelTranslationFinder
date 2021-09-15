@@ -6,11 +6,15 @@
     use Illuminate\Filesystem\Filesystem;
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
 
-    class FileHelper
+    class FileContentHelper
 	{
+	    public const FILE_EXTENSION_PHP = 'php';
+
+	    public const FILE_EXTENSION_json = 'json';
+
         public const SUPPORTED_FILE_EXTENSIONS = [
-            'php',
-            'json'
+            self::FILE_EXTENSION_PHP,
+            self::FILE_EXTENSION_json,
         ];
 
 	    /**
@@ -23,7 +27,7 @@
             $extension = pathinfo($fullPath, PATHINFO_EXTENSION);
 
             switch ($extension) {
-                case 'php':
+                case self::FILE_EXTENSION_PHP:
                     try {
                         $file = new Filesystem();
 
@@ -31,7 +35,7 @@
                     } catch (FileNotFoundException $e) {
                         return [];
                     }
-                case 'json':
+                case self::FILE_EXTENSION_json:
                     return json_decode(file_get_contents($fullPath), true);
                 default:
                     throw new UnsupportedFileExtensionException("Packages extension [{$extension}] is not supported");
@@ -49,10 +53,10 @@
             $extension = pathinfo($fullPath, PATHINFO_EXTENSION);
 
             switch ($extension) {
-                case 'php':
+                case self::FILE_EXTENSION_PHP:
                     $content = var_export($translations, true);
                     return "<?php\n\nreturn {$content};\n";
-                case 'json':
+                case self::FILE_EXTENSION_json:
                     return json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
                 default:
                     throw new UnsupportedFileExtensionException("Packages extension [{$extension}] is not supported");

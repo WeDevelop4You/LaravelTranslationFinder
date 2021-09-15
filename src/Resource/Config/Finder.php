@@ -9,6 +9,7 @@
      * Class Finder
      * @package WeDevelop4You\TranslationFinder\Resource\Config\Environment
      *
+     * @property-read string $tag
      * @property-read string $path
      * @property-read string $extension
      * @property-read array $excludePaths
@@ -23,6 +24,7 @@
          */
         public function __construct(object $finderConfig)
         {
+            $this->tag = $finderConfig->tag;
             $this->path = $finderConfig->path;
             $this->functions = $finderConfig->functions;
             $this->excludePaths = $finderConfig->exclude_paths;
