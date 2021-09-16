@@ -60,7 +60,7 @@
             $translationKey->translations->each(function (Translation $translation) use ($translationKey, $file) {
                 $fullPath = $this->createFullPath($translationKey, $translation->locale);
 
-                (! $this->filesNeedsToRebuild || in_array($fullPath, $this->rebuildFiles))
+                (!$this->filesNeedsToRebuild || in_array($fullPath, $this->rebuildFiles))
                     ? $translations = call_user_func($this->config->functions->get, $fullPath)
                     : $this->rebuildFiles[] = $fullPath;
 
@@ -126,7 +126,7 @@
                 $fullPath = "{$direction}/{$group}.{$extension}";
             }
 
-            if (! is_dir($direction)) {
+            if (!is_dir($direction)) {
                 mkdir($direction);
                 chmod($direction, 0777);
             }

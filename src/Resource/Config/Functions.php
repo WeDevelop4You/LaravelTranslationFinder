@@ -31,7 +31,7 @@
         public function __construct()
         {
             foreach (config('translation.helpers') as $name => $class) {
-                if (! class_exists($class)) {
+                if (!class_exists($class)) {
                     throw new ClassNotFoundException("Class [{$class}] doesn't exist");
                 }
 
@@ -52,7 +52,7 @@
         {
             $function = "{$class}::{$functionName}";
 
-            if (! is_callable($function)) {
+            if (!is_callable($function)) {
                 throw new MethodNotCallableException("Method [{$function}] not found or callable");
             }
 

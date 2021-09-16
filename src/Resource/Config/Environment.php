@@ -23,7 +23,7 @@
          */
         public function __construct(string $environment)
         {
-            if (! in_array($environment, Config::getEnvironments()->toArray())) {
+            if (!in_array($environment, Config::getEnvironments()->toArray())) {
                 throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
             }
 

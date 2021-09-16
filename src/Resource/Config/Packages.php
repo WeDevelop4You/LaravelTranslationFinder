@@ -42,7 +42,7 @@
             foreach ($this->paths as $path => $environment) {
                 $fullPath = base_path($path);
 
-                if (! file_exists($fullPath)) {
+                if (!file_exists($fullPath)) {
                     throw new FileDoesNotExistException("File [{$fullPath}] doesn't exist'");
                 }
             }

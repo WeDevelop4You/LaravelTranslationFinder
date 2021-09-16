@@ -36,9 +36,9 @@
         {
             $defaultEnvironment = Config::DEFAULT_ENVIRONMENT;
 
-            if (! Config::isEnvironmentsSeparated() && $environment !== $defaultEnvironment) {
+            if (!Config::isEnvironmentsSeparated() && $environment !== $defaultEnvironment) {
                 throw (new EnvironmentNotFoundException())->setMessageNotDefaultEnvironment($environment, $defaultEnvironment);
-            } elseif (! in_array($environment, Config::getEnvironments()->toArray())) {
+            } elseif (!in_array($environment, Config::getEnvironments()->toArray())) {
                 throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
             }
 

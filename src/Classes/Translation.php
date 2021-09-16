@@ -65,7 +65,7 @@
 
             $locales = (new Filesystem())->getRequire(__DIR__.'/../../locales.php');
 
-            if (! in_array($locale, $locales)) {
+            if (!in_array($locale, $locales)) {
                 throw new UnsupportedLocaleException("This [{$locale}] locale is not a valid locale");
             }
 
@@ -166,7 +166,7 @@
          */
         public function doesNotExist(string $key, string $group = Config::DEFAULT_GROUP, ?string $environment = null): bool
         {
-            return ! $this->exists($key, $group, $environment);
+            return !$this->exists($key, $group, $environment);
         }
 
         /**
@@ -174,7 +174,7 @@
          */
         private function checkIfTranslationKeyIsset()
         {
-            if (! isset($this->translationKey)) {
+            if (!isset($this->translationKey)) {
                 throw new ParameterRequiredException("Parameter [translationKey] wasn't set");
             }
         }

@@ -24,7 +24,7 @@
                 } else {
                     $environment = Config::DEFAULT_ENVIRONMENT;
                 }
-            } elseif (! in_array($environment, Config::getEnvironments()->toArray())) {
+            } elseif (!in_array($environment, Config::getEnvironments()->toArray())) {
                 throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
             }
 
@@ -48,7 +48,7 @@
                     $column = $index;
                     $environment = $value;
 
-                    if (! $isEnvironmentsSeparated && $environment !== $defaultEnvironment) {
+                    if (!$isEnvironmentsSeparated && $environment !== $defaultEnvironment) {
                         throw (new EnvironmentNotFoundException())->setMessageNotDefaultEnvironment($environment, $defaultEnvironment);
                     }
                 } else {
@@ -56,7 +56,7 @@
                     $environment = $defaultEnvironment;
                 }
 
-                if (! in_array($environment, $environments)) {
+                if (!in_array($environment, $environments)) {
                     throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
                 }
 

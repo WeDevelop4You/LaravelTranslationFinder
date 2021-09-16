@@ -110,7 +110,7 @@
                             continue;
                         }
 
-                        if (! (Str::contains($translationKey, '::') && Str::contains($translationKey, '.')) || Str::contains($translationKey, ' ')) {
+                        if (!(Str::contains($translationKey, '::') && Str::contains($translationKey, '.')) || Str::contains($translationKey, ' ')) {
                             $this->create(Config::DEFAULT_GROUP, $translationKey, $file, $matches[0][$index]);
                         }
                     }

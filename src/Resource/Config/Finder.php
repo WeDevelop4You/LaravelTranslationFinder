@@ -36,7 +36,7 @@
          */
         private function createValidExtension(string $extension): void
         {
-            if (! Str::startsWith($extension, '*.')) {
+            if (!Str::startsWith($extension, '*.')) {
                 $extension = Str::startsWith($extension, '.')
                     ? "*{$extension}"
                     : "*.{$extension}";

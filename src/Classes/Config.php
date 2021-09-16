@@ -158,7 +158,7 @@
          */
         private function checkIfTableExists()
         {
-            if ($this->useTranslationSource && ! Schema::hasTable(self::SOURCE_TABLE)) {
+            if ($this->useTranslationSource && !Schema::hasTable(self::SOURCE_TABLE)) {
                 throw (new SettingNotAllowedException())->tableDoesNotExist(self::SOURCE_TABLE);
             }
         }

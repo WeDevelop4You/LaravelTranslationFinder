@@ -54,7 +54,7 @@
                     $progressBar = null;
                 }
 
-                if (! is_null($columnEnvironment)) {
+                if (!is_null($columnEnvironment)) {
                     $columns = $columnEnvironment->keys()->toArray();
 
                     $modelTranslations = $modelClass::all($columns)->flatMap(function ($data) use ($columnEnvironment, $progressBar) {

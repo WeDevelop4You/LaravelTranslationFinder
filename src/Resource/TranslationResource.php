@@ -65,7 +65,7 @@
             $tags = is_array($tags) ? $tags : [$tags];
 
             foreach ($tags as $tag) {
-                if (! empty($tag)) {
+                if (!empty($tag)) {
                     $this->tags[] = $tag;
                 }
             }
@@ -85,7 +85,7 @@
                     $lineNumber = $key + 1;
                     $source = "{$file->getRelativePath()}/{$file->getFilename()}:{$lineNumber}";
 
-                    if (! $this->sources->contains($source)) {
+                    if (!$this->sources->contains($source)) {
                         $this->sources->push($source);
                     }
                 }

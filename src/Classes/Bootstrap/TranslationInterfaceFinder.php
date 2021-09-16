@@ -50,7 +50,7 @@
                 })
                 ->filter(function (string $class) {
                     return is_subclass_of($class, Translation::class) &&
-                        ! (new ReflectionClass($class))->isAbstract();
+                        !(new ReflectionClass($class))->isAbstract();
                 });
 
             return $this;
