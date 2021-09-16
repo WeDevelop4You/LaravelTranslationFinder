@@ -4,11 +4,8 @@
 
     use Illuminate\Support\Collection;
     use Illuminate\Support\Facades\Schema;
-    use phpDocumentor\Reflection\Types\Boolean;
-    use WeDevelop4You\TranslationFinder\Exceptions\ClassNotFoundException;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
     use WeDevelop4You\TranslationFinder\Exceptions\FileDoesNotExistException;
-    use WeDevelop4You\TranslationFinder\Exceptions\MethodNotCallableException;
     use WeDevelop4You\TranslationFinder\Exceptions\SettingNotAllowedException;
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
     use WeDevelop4You\TranslationFinder\Resource\Config\Database;

@@ -6,23 +6,37 @@
     "keywords": [
         "laravel",
         "translation",
+        "translations",
         "manager",
         "finder"
     ],
     "authors": [
         {
             "name": "Pascal Huberts",
-            "email": "contact@wedevelop4you.nl"
+            "email": "contact@wedevelop4you.nl",
+            "homepage": "https://wedevelop4you.nl"
         }
     ],
     "require": {
-        "php": ">=7.4.0",
+        "php": "^7.4|^8.0",
         "ext-json": "*",
-        "laravel/laravel": "^7.4|^8.0"
+        "symfony/finder": "^5.1",
+        "illuminate/console": "^8.0",
+        "illuminate/database": "^8.0",
+        "illuminate/filesystem": "^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.21",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
             "WeDevelop4You\\TranslationFinder\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WeDevelop4You\\TranslationFinder\\Tests\\": "tests"
         }
     },
     "extra": {

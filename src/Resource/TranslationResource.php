@@ -7,10 +7,6 @@
 	use Illuminate\Support\Collection;
     use Illuminate\Support\Str;
     use Symfony\Component\Finder\SplFileInfo;
-    use WeDevelop4You\TranslationFinder\Classes\Find\DatabaseSearcher;
-    use WeDevelop4You\TranslationFinder\Classes\Find\PackagesSearcher;
-    use WeDevelop4You\TranslationFinder\Classes\Find\ProjectSearcher;
-    use WeDevelop4You\TranslationFinder\Exceptions\ParameterRequiredException;
 
     class TranslationResource
 	{
