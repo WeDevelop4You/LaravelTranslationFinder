@@ -1,8 +1,8 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Classes\Find;
+    namespace WeDevelop4You\TranslationFinder\Classes\Find;
 
-	use Illuminate\Support\Collection;
+    use Illuminate\Support\Collection;
     use Illuminate\Support\Facades\App;
     use WeDevelop4You\TranslationFinder\Classes\Config;
     use WeDevelop4You\TranslationFinder\Helpers\FileContentHelper;
@@ -11,13 +11,13 @@
     use WeDevelop4You\TranslationFinder\Resource\TranslationResource;
 
     class PackagesSearcher
-	{
+    {
         /**
          * @var string
          */
         private string $getFileContent;
 
-	    /**
+        /**
          * @var Packages
          */
         private Packages $packagesConfig;

@@ -1,6 +1,6 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Resource\Config;
+    namespace WeDevelop4You\TranslationFinder\Resource\Config;
 
     use Illuminate\Support\Collection;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
@@ -16,8 +16,8 @@
      * @property-read bool getTranslations
      * @property-read bool usePackagesNameTags
      */
-	class Packages
-	{
+    class Packages
+    {
         /**
          * Packages constructor.
          *
@@ -42,7 +42,7 @@
             foreach ($this->paths as $path => $environment) {
                 $fullPath = base_path($path);
 
-                if (!file_exists($fullPath)) {
+                if (! file_exists($fullPath)) {
                     throw new FileDoesNotExistException("File [{$fullPath}] doesn't exist'");
                 }
             }

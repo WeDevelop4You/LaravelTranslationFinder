@@ -1,10 +1,9 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Exceptions;
+    namespace WeDevelop4You\TranslationFinder\Exceptions;
 
-	use Exception;
+    use Exception;
 
     class UnsupportedLocaleException extends Exception
-	{
-
-	}
+    {
+    }

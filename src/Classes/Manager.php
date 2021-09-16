@@ -1,7 +1,6 @@
 <?php
 
-
-	namespace WeDevelop4You\TranslationFinder\Classes;
+    namespace WeDevelop4You\TranslationFinder\Classes;
 
     use Exception;
     use Illuminate\Support\Collection;
@@ -13,7 +12,7 @@
     use WeDevelop4You\TranslationFinder\Models\TranslationKey;
 
     class Manager
-	{
+    {
         /**
          * Search to the hole project for translation keys
          *
@@ -61,7 +60,7 @@
             try {
                 $builder = new Builder(true);
 
-                TranslationKey::all()->each(function(TranslationKey $translationKey) use ($builder) {
+                TranslationKey::all()->each(function (TranslationKey $translationKey) use ($builder) {
                     $builder->addTranslationToFile($translationKey);
                 });
 
@@ -78,4 +77,4 @@
         {
             return new Translation();
         }
-	}
+    }

@@ -1,6 +1,5 @@
 <?php
 
-
     namespace WeDevelop4You\TranslationFinder\Resource\Config;
 
     use WeDevelop4You\TranslationFinder\Classes\Config;
@@ -14,20 +13,19 @@
      * @property-read bool searchModels
      * @property-read string $environment
      */
-	class Database
-	{
+    class Database
+    {
         /**
          * Database constructor.
          *
          * @param object $config
          * @throws EnvironmentNotFoundException
          */
-	    public function __construct(object $config)
+        public function __construct(object $config)
         {
             $this->tag = $config->tag;
             $this->searchModels = $config->search_models;
             $this->setEnvironment($config->default_environment);
-
         }
 
         /**
@@ -38,9 +36,9 @@
         {
             $defaultEnvironment = Config::DEFAULT_ENVIRONMENT;
 
-            if (!Config::isEnvironmentsSeparated() && $environment !== $defaultEnvironment) {
+            if (! Config::isEnvironmentsSeparated() && $environment !== $defaultEnvironment) {
                 throw (new EnvironmentNotFoundException())->setMessageNotDefaultEnvironment($environment, $defaultEnvironment);
-            } else if (!in_array($environment, Config::getEnvironments()->toArray())) {
+            } elseif (! in_array($environment, Config::getEnvironments()->toArray())) {
                 throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
             }
 
@@ -55,4 +53,4 @@
         {
             return $this->$name;
         }
-	}
+    }

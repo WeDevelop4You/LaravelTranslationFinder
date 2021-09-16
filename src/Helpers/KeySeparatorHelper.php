@@ -1,11 +1,11 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Helpers;
+    namespace WeDevelop4You\TranslationFinder\Helpers;
 
-	use WeDevelop4You\TranslationFinder\Classes\Config;
+    use WeDevelop4You\TranslationFinder\Classes\Config;
 
     class KeySeparatorHelper
-	{
+    {
         /**
          * @param string $environment
          * @param string $translationKey
@@ -37,4 +37,4 @@
 
             return [Config::DEFAULT_GROUP, $translationKey];
         }
-	}
+    }

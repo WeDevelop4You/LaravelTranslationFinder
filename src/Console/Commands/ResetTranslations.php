@@ -2,15 +2,8 @@
 
 namespace WeDevelop4You\TranslationFinder\Console\Commands;
 
-use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Schema;
-use WeDevelop4You\TranslationFinder\Classes\Manager;
 use WeDevelop4You\TranslationFinder\Helpers\TruncateTableHelper;
-use WeDevelop4You\TranslationFinder\Models\Translation;
-use WeDevelop4You\TranslationFinder\Models\TranslationInformation;
-use WeDevelop4You\TranslationFinder\Models\TranslationKey;
-use WeDevelop4You\TranslationFinder\Models\TranslationSource;
 
 class ResetTranslations extends Command
 {

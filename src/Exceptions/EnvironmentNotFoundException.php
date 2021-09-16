@@ -1,13 +1,11 @@
 <?php
 
-
     namespace WeDevelop4You\TranslationFinder\Exceptions;
 
-
-	use Exception;
+    use Exception;
 
     class EnvironmentNotFoundException extends Exception
-	{
+    {
         /**
          * @param string $environment
          * @param string $defaultEnvironment
@@ -30,4 +28,4 @@
 
             return $this;
         }
-	}
+    }

@@ -1,14 +1,13 @@
 <?php
 
-
     namespace WeDevelop4You\TranslationFinder\Helpers;
 
     use Symfony\Component\Console\Helper\ProgressBar;
     use Symfony\Component\Console\Output\ConsoleOutput;
 
     class ProgressBarHelper
-	{
-	    private ProgressBar $progressBar;
+    {
+        private ProgressBar $progressBar;
 
         public function __construct(string $message, int $total)
         {

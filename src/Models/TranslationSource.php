@@ -23,7 +23,7 @@ class TranslationSource extends Model
 
     protected $fillable = [
         'translation_id',
-        'source'
+        'source',
     ];
 
     /**

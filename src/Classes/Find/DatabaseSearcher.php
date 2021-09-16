@@ -1,6 +1,6 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Classes\Find;
+    namespace WeDevelop4You\TranslationFinder\Classes\Find;
 
     use Exception;
     use Illuminate\Support\Collection;
@@ -13,7 +13,7 @@
     use WeDevelop4You\TranslationFinder\Resource\TranslationResource;
 
     class DatabaseSearcher
-	{
+    {
         /**
          * @var Collection
          */
@@ -37,7 +37,7 @@
         {
             $this->databaseConfig = $databaseConfig;
             $this->databaseKeySeparator = $databaseKeySeparator;
-            $this->modelClasses = (new TranslationInterfaceFinder)->get(true);
+            $this->modelClasses = (new TranslationInterfaceFinder())->get(true);
         }
 
         /**
@@ -54,10 +54,10 @@
                     $progressBar = null;
                 }
 
-                if (!is_null($columnEnvironment)) {
+                if (! is_null($columnEnvironment)) {
                     $columns = $columnEnvironment->keys()->toArray();
 
-                    $modelTranslations = $modelClass::all($columns)->flatMap(function($data) use ($columnEnvironment, $progressBar) {
+                    $modelTranslations = $modelClass::all($columns)->flatMap(function ($data) use ($columnEnvironment, $progressBar) {
                         if (isset($progressBar)) {
                             $progressBar->add();
                         }
@@ -104,9 +104,8 @@
                 $translation->setTags($this->databaseConfig->tag);
 
                 $translations[] = $translation;
-
             }
 
             return $translations ?? [];
         }
-	}
+    }

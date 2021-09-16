@@ -1,14 +1,14 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Helpers;
+    namespace WeDevelop4You\TranslationFinder\Helpers;
 
-	use Illuminate\Support\Collection;
+    use Illuminate\Support\Collection;
     use WeDevelop4You\TranslationFinder\Classes\Config;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
     use WeDevelop4You\TranslationFinder\Exceptions\ParameterRequiredException;
 
     class ValidateHelper
-	{
+    {
         /**
          * Gets the environment and checks if the environment is valid
          *
@@ -24,7 +24,7 @@
                 } else {
                     $environment = Config::DEFAULT_ENVIRONMENT;
                 }
-            } else if (!in_array($environment, Config::getEnvironments()->toArray())) {
+            } elseif (! in_array($environment, Config::getEnvironments()->toArray())) {
                 throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
             }
 
@@ -48,7 +48,7 @@
                     $column = $index;
                     $environment = $value;
 
-                    if (!$isEnvironmentsSeparated && $environment !== $defaultEnvironment) {
+                    if (! $isEnvironmentsSeparated && $environment !== $defaultEnvironment) {
                         throw (new EnvironmentNotFoundException())->setMessageNotDefaultEnvironment($environment, $defaultEnvironment);
                     }
                 } else {
@@ -56,7 +56,7 @@
                     $environment = $defaultEnvironment;
                 }
 
-                if (!in_array($environment, $environments)) {
+                if (! in_array($environment, $environments)) {
                     throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
                 }
 
@@ -65,4 +65,4 @@
 
             return $dataWithEnvironments;
         }
-	}
+    }

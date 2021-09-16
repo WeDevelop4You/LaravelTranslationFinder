@@ -1,7 +1,6 @@
 <?php
 
-
-	namespace WeDevelop4You\TranslationFinder\Resource\Config;
+    namespace WeDevelop4You\TranslationFinder\Resource\Config;
 
     use Illuminate\Support\Str;
 
@@ -16,8 +15,8 @@
      * @property-read array $functions
      * @property-read array $ignoreGroups
      */
-	class Finder
-	{
+    class Finder
+    {
         /**
          * Finder constructor.
          * @param object $finderConfig
@@ -37,7 +36,7 @@
          */
         private function createValidExtension(string $extension): void
         {
-            if (!Str::startsWith($extension, '*.')) {
+            if (! Str::startsWith($extension, '*.')) {
                 $extension = Str::startsWith($extension, '.')
                     ? "*{$extension}"
                     : "*.{$extension}";

@@ -1,15 +1,13 @@
 <?php
 
-
     namespace WeDevelop4You\TranslationFinder\Resource;
 
-
-	use Illuminate\Support\Collection;
+    use Illuminate\Support\Collection;
     use Illuminate\Support\Str;
     use Symfony\Component\Finder\SplFileInfo;
 
     class TranslationResource
-	{
+    {
         /**
          * @var string
          */
@@ -46,7 +44,6 @@
          */
         public Collection $sources;
 
-
         public function __construct()
         {
             $this->sources = new Collection();
@@ -68,12 +65,11 @@
             $tags = is_array($tags) ? $tags : [$tags];
 
             foreach ($tags as $tag) {
-                if (!empty($tag)) {
+                if (! empty($tag)) {
                     $this->tags[] = $tag;
                 }
             }
         }
-
 
         /**
          * @param SplFileInfo $file
@@ -89,7 +85,7 @@
                     $lineNumber = $key + 1;
                     $source = "{$file->getRelativePath()}/{$file->getFilename()}:{$lineNumber}";
 
-                    if (!$this->sources->contains($source)) {
+                    if (! $this->sources->contains($source)) {
                         $this->sources->push($source);
                     }
                 }
