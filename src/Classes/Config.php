@@ -25,7 +25,7 @@
      * @property-read Collection|Environment[] $environments
      */
     class Config
-	{
+    {
         public const DEFAULT_GROUP = '_json';
 
         public const DEFAULT_ENVIRONMENT = 'default';
@@ -158,7 +158,7 @@
          */
         private function checkIfTableExists()
         {
-            if ($this->useTranslationSource && !Schema::hasTable(self::SOURCE_TABLE)) {
+            if ($this->useTranslationSource && ! Schema::hasTable(self::SOURCE_TABLE)) {
                 throw (new SettingNotAllowedException())->tableDoesNotExist(self::SOURCE_TABLE);
             }
         }

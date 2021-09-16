@@ -1,14 +1,14 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Classes\Bootstrap;
+    namespace WeDevelop4You\TranslationFinder\Classes\Bootstrap;
 
-	use Exception;
+    use Exception;
     use Illuminate\Contracts\Filesystem\FileNotFoundException;
     use Illuminate\Filesystem\Filesystem;
     use Illuminate\Support\Collection;
 
     class BootstrapCache
-	{
+    {
         /**
          * @var Collection|array
          */
@@ -35,7 +35,7 @@
                 return $this->data;
             }
 
-            if (!file_exists($this->storagePath)) {
+            if (! file_exists($this->storagePath)) {
                 $this->create();
             }
 
@@ -54,7 +54,7 @@
         {
             $directory = dirname($this->storagePath);
 
-            if (!is_writable($directory)) {
+            if (! is_writable($directory)) {
                 throw new Exception("The {$directory} directory must be present and writable.");
             }
 

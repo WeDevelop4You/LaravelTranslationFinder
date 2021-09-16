@@ -1,14 +1,14 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Classes\Bootstrap;
+    namespace WeDevelop4You\TranslationFinder\Classes\Bootstrap;
 
-	use Exception;
+    use Exception;
     use Illuminate\Contracts\Filesystem\FileNotFoundException;
     use Illuminate\Filesystem\Filesystem;
     use Illuminate\Support\Facades\App;
 
     class TranslationPackagesPath extends BootstrapCache
-	{
+    {
         public function __construct()
         {
             $this->file = new Filesystem();
@@ -36,7 +36,7 @@
         {
             $found = false;
 
-            $this->get(true)->each(function(array $ids, string $path) use ($id, &$found) {
+            $this->get(true)->each(function (array $ids, string $path) use ($id, &$found) {
                 if (in_array($id, $ids)) {
                     $found = $path;
                 }
@@ -49,4 +49,4 @@
         {
             $this->create();
         }
-	}
+    }

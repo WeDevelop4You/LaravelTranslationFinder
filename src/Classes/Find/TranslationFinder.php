@@ -1,6 +1,6 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Classes\Find;
+    namespace WeDevelop4You\TranslationFinder\Classes\Find;
 
     use Exception;
     use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -21,8 +21,8 @@
     use WeDevelop4You\TranslationFinder\Resource\TranslationResource;
 
     class TranslationFinder
-	{
-	    /**
+    {
+        /**
          * @var Collection|TranslationResource[]
          */
         private $translations;
@@ -97,7 +97,7 @@
             $this->packagesPath = new TranslationPackagesPath();
             $this->packagesPath->reset();
 
-            $packages = new PackagesSearcher($config->packages, $this->config->functions->get,);
+            $packages = new PackagesSearcher($config->packages, $this->config->functions->get, );
             $packages->find()->each(function (TranslationResource $translationResource) {
                 $this->removeDuplicates($translationResource);
             });

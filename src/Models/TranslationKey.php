@@ -44,11 +44,11 @@ class TranslationKey extends Model
         'environment',
         'group',
         'key',
-        'found'
+        'found',
     ];
 
     protected $casts = [
-        'found' => 'array'
+        'found' => 'array',
     ];
 
     /**

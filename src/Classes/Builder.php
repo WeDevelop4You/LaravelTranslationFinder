@@ -1,22 +1,20 @@
 <?php
 
+    namespace WeDevelop4You\TranslationFinder\Classes;
 
-	namespace WeDevelop4You\TranslationFinder\Classes;
-
-
-	use Illuminate\Contracts\Filesystem\FileNotFoundException;
+    use Illuminate\Contracts\Filesystem\FileNotFoundException;
     use Illuminate\Filesystem\Filesystem;
     use Illuminate\Support\Arr;
     use Illuminate\Support\Str;
     use WeDevelop4You\TranslationFinder\Classes\Bootstrap\TranslationPackagesPath;
-    use WeDevelop4You\TranslationFinder\Helpers\FileContentHelper;
-    use WeDevelop4You\TranslationFinder\Resource\Config\Storage;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
+    use WeDevelop4You\TranslationFinder\Helpers\FileContentHelper;
     use WeDevelop4You\TranslationFinder\Models\Translation;
     use WeDevelop4You\TranslationFinder\Models\TranslationKey;
+    use WeDevelop4You\TranslationFinder\Resource\Config\Storage;
 
     class Builder
-	{
+    {
         /**
          * @var Config
          */
@@ -62,7 +60,7 @@
             $translationKey->translations->each(function (Translation $translation) use ($translationKey, $file) {
                 $fullPath = $this->createFullPath($translationKey, $translation->locale);
 
-                (!$this->filesNeedsToRebuild || in_array($fullPath, $this->rebuildFiles))
+                (! $this->filesNeedsToRebuild || in_array($fullPath, $this->rebuildFiles))
                     ? $translations = call_user_func($this->config->functions->get, $fullPath)
                     : $this->rebuildFiles[] = $fullPath;
 
@@ -128,11 +126,11 @@
                 $fullPath = "{$direction}/{$group}.{$extension}";
             }
 
-            if (!is_dir($direction)) {
+            if (! is_dir($direction)) {
                 mkdir($direction);
                 chmod($direction, 0777);
             }
 
             return $fullPath;
         }
-	}
+    }

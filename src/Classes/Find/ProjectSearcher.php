@@ -1,8 +1,8 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Classes\Find;
+    namespace WeDevelop4You\TranslationFinder\Classes\Find;
 
-	use Illuminate\Support\Collection;
+    use Illuminate\Support\Collection;
     use Illuminate\Support\Facades\App;
     use Illuminate\Support\Str;
     use Symfony\Component\Finder\Finder as FileFinder;
@@ -13,10 +13,10 @@
     use WeDevelop4You\TranslationFinder\Resource\TranslationResource;
 
     class ProjectSearcher
-	{
-	    private const DEFAULT_EXCLUDE_PATHS = [
+    {
+        private const DEFAULT_EXCLUDE_PATHS = [
             'vendor',
-            'storage/framework/views'
+            'storage/framework/views',
         ];
 
         /**
@@ -103,14 +103,14 @@
                 }
 
                 if (preg_match_all("/$stringPattern/siU", $file->getContents(), $matches)) {
-                    foreach ($matches['string'] as $index =>  $translationKey) {
+                    foreach ($matches['string'] as $index => $translationKey) {
                         if (preg_match("/(^[a-zA-Z0-9_-]+([.][^\1)\/]+)+$)/siU", $translationKey, $groupMatches)) {
                             // group{.group}.key format, already in group keys but also matched here
                             // do nothing, it has to be treated as a group
                             continue;
                         }
 
-                        if (!(Str::contains($translationKey, '::') && Str::contains($translationKey, '.')) || Str::contains($translationKey, ' ')) {
+                        if (! (Str::contains($translationKey, '::') && Str::contains($translationKey, '.')) || Str::contains($translationKey, ' ')) {
                             $this->create(Config::DEFAULT_GROUP, $translationKey, $file, $matches[0][$index]);
                         }
                     }
@@ -150,6 +150,5 @@
             }
 
             $translation->findLineNumberInFile($file, $search);
-
         }
-	}
+    }

@@ -1,7 +1,6 @@
 <?php
 
-
-	namespace WeDevelop4You\TranslationFinder\Resource\Config;
+    namespace WeDevelop4You\TranslationFinder\Resource\Config;
 
     use Illuminate\Support\Str;
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
@@ -13,8 +12,8 @@
      * @property-read string $path
      * @property-read string $extension
      */
-	class Storage
-	{
+    class Storage
+    {
         /**
          * Storage constructor.
          * @param object $storageConfig

@@ -1,6 +1,6 @@
 <?php
 
-	namespace WeDevelop4You\TranslationFinder\Resource\Config;
+    namespace WeDevelop4You\TranslationFinder\Resource\Config;
 
     use WeDevelop4You\TranslationFinder\Exceptions\ClassNotFoundException;
     use WeDevelop4You\TranslationFinder\Exceptions\MethodNotCallableException;
@@ -14,8 +14,8 @@
      * @property-read callable default
      * @property-read callable database
      */
-	class Functions
-	{
+    class Functions
+    {
         private const FUNCTIONS = [
             'get' => 'file_content',
             'set' => 'file_content',
@@ -31,7 +31,7 @@
         public function __construct()
         {
             foreach (config('translation.helpers') as $name => $class) {
-                if (!class_exists($class)) {
+                if (! class_exists($class)) {
                     throw new ClassNotFoundException("Class [{$class}] doesn't exist");
                 }
 
@@ -52,7 +52,7 @@
         {
             $function = "{$class}::{$functionName}";
 
-            if (!is_callable($function)) {
+            if (! is_callable($function)) {
                 throw new MethodNotCallableException("Method [{$function}] not found or callable");
             }
 
@@ -67,4 +67,4 @@
         {
             return $this->$name;
         }
-	}
+    }

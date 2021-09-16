@@ -1,8 +1,6 @@
 <?php
 
-
     namespace WeDevelop4You\TranslationFinder\Resource\Config;
-
 
     use WeDevelop4You\TranslationFinder\Classes\Config;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
@@ -25,7 +23,7 @@
          */
         public function __construct(string $environment)
         {
-            if (!in_array($environment, Config::getEnvironments()->toArray())) {
+            if (! in_array($environment, Config::getEnvironments()->toArray())) {
                 throw (new EnvironmentNotFoundException())->setMessageEnvironmentDoesNotExist($environment);
             }
 
