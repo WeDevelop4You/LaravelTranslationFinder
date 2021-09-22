@@ -82,7 +82,7 @@
          */
         public static function isTranslationsSourceUsed(): bool
         {
-            return config('translation.use_translation_source');
+            return config('translation.environment.use_translation_source');
         }
 
         /**
