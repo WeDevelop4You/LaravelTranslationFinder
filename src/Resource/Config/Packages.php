@@ -27,7 +27,7 @@
         public function __construct(object $config)
         {
             $this->tag = $config->tag;
-            $this->getTranslations = $config->get_translations;
+            $this->getTranslations = $config->use_packages;
             $this->usePackagesNameTags = $config->use_packages_name_tags;
             $this->paths = ValidateHelper::environments($config->paths, $config->default_environment);
 

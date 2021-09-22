@@ -24,7 +24,7 @@
         public function __construct(object $config)
         {
             $this->tag = $config->tag;
-            $this->searchModels = $config->search_models;
+            $this->searchModels = $config->use_database;
             $this->setEnvironment($config->default_environment);
         }
 

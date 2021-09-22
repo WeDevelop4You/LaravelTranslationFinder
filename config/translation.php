@@ -144,10 +144,20 @@
         ],
 
         /*
+         * Sometimes you have stored word or text in your database for example categories. With
+         * this you can search for translations in your tables and translate them.
          *
+         * "use_database": Set to "true" if you want to use it
+         * "tag": If a translation is found what tag needs to be added
+         * "default_environment": If a translation is found what environment needs it be set when
+         *  there is no environment set in your model.
+         * "model_path": The path where the models are located
+         *
+         * For more information
+         * https://github.com/WeDevelop4You/LaravelTranslationFinder/wiki
          */
         'database' => [
-            'search_models' => false,
+            'use_database' => false,
 
             'tag' => 'database',
 
@@ -157,10 +167,21 @@
         ],
 
         /*
+         * Sometimes you have a packages and the translation in the language you want isn't there
+         * than you can add it here.
          *
+         * "use_packages": Set to "true" if you want to use it
+         * "tag": If a translation is found what tag needs to be added
+         * "use_packages": If a translation is found do you also want to add the packages name
+         * "default_environment": If a translation is found what environment needs it be set when
+         *  there is no environment set by the path.
+         * "paths": All the paths to the packages translations
+         *
+         * For more information
+         * https://github.com/WeDevelop4You/LaravelTranslationFinder/wiki
          */
         'packages' => [
-            'get_translations' => false,
+            'use_packages' => false,
 
             'tag' => 'packages',
 
@@ -183,12 +204,18 @@
              *
              * If you want to submit a new extension that others also can use too. Just make a pull
              * request on GitHub. https://github.com/WeDevelop4You/LaravelTranslationFinder/pulls
+             *
+             * For more information
+             * https://github.com/WeDevelop4You/LaravelTranslationFinder/wiki
              */
             'file_content' => \WeDevelop4You\TranslationFinder\Helpers\FileContentHelper::class,
 
             /*
              * For every environment is the translation key different and needs to be separated
              * differently. You can extend it or make your onw version.
+             *
+             * For more information
+             * https://github.com/WeDevelop4You/LaravelTranslationFinder/wiki
              */
             'key_separator' => \WeDevelop4You\TranslationFinder\Helpers\KeySeparatorHelper::class,
         ],
