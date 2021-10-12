@@ -83,7 +83,8 @@
             foreach ($lines as $key => $line) {
                 if (Str::contains($line, $search)) {
                     $lineNumber = $key + 1;
-                    $source = "{$file->getRelativePath()}/{$file->getFilename()}:{$lineNumber}";
+                    $path = Str::after($file->getPath(), base_path() . '/');
+                    $source = "{$path}/{$file->getFilename()}:{$lineNumber}";
 
                     if (!$this->sources->contains($source)) {
                         $this->sources->push($source);
