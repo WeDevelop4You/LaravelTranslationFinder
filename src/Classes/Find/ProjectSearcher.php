@@ -9,7 +9,6 @@
     use Symfony\Component\Finder\SplFileInfo;
     use WeDevelop4You\TranslationFinder\Classes\Config;
     use WeDevelop4You\TranslationFinder\Helpers\ProgressBarHelper;
-    use WeDevelop4You\TranslationFinder\Resource\Config\Environment;
     use WeDevelop4You\TranslationFinder\Resource\Config\Finder;
     use WeDevelop4You\TranslationFinder\Resource\TranslationResource;
 
