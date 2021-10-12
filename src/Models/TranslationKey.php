@@ -18,7 +18,7 @@ use Illuminate\Support\Carbon;
  * @property string $environment
  * @property string $group
  * @property string $key
- * @property mixed|null $tags
+ * @property AsCollection|null $tags
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection|\WeDevelop4You\TranslationFinder\Models\TranslationSource[] $sources
