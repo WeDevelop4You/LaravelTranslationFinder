@@ -98,7 +98,9 @@
                     foreach ($matches[2] as $index => $translationKey) {
                         list($group, $key) = call_user_func($this->defaultKeySeparator, $this->environment, $translationKey);
 
-                        $this->create($group, $key, $file, $matches[0][$index]);
+                        if (!in_array($group, $this->finderConfig->ignoreGroups)) {
+                            $this->create($group, $key, $file, $matches[0][$index]);
+                        }
                     }
                 }
 

@@ -73,8 +73,6 @@
 
                 $project = new ProjectSearcher($environment->finder, $this->config->functions->default, $environment->name);
                 $project->find()->each(function (TranslationResource $translationResource) {
-                    dump($translationResource);
-
                     $this->removeDuplicates($translationResource);
                 });
             });
