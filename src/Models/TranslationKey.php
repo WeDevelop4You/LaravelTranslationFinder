@@ -4,6 +4,7 @@ namespace WeDevelop4You\TranslationFinder\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,11 +45,11 @@ class TranslationKey extends Model
         'environment',
         'group',
         'key',
-        'found',
+        'tags',
     ];
 
     protected $casts = [
-        'found' => 'array',
+        'tags' => AsCollection::class,
     ];
 
     /**
