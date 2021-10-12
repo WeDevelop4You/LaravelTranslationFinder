@@ -9,6 +9,7 @@
     use Symfony\Component\Finder\SplFileInfo;
     use WeDevelop4You\TranslationFinder\Classes\Config;
     use WeDevelop4You\TranslationFinder\Helpers\ProgressBarHelper;
+    use WeDevelop4You\TranslationFinder\Resource\Config\Environment;
     use WeDevelop4You\TranslationFinder\Resource\Config\Finder;
     use WeDevelop4You\TranslationFinder\Resource\TranslationResource;
 
@@ -57,26 +58,26 @@
          */
         public function find(): Collection
         {
-            $groupPattern =                                             // See https://regex101.com/r/WEJqdL/6
-                "[\W]".                                                 // Must not have an alphanum or _ or > before real method
-                '('.implode('|', $this->finderConfig->functions).')'. // Must start with one of the functions
-                "\(".                                                   // Match opening parenthesis
-                "[\'\"]".                                               // Match " or '
-                '('.                                                    // Start a new group to match:
-                '[a-zA-Z0-9_-]+'.                                       // Must start with group
-                "([.](?! )[^\1)]+)+".                                   // Be followed by one or more items/keys
-                ')'.                                                    // Close group
-                "[\'\"]".                                               // Closing quote
-                "[\),]";                                                // Close parentheses or new parameter
+            $groupPattern =                                                     // See https://regex101.com/r/2CMLat/1
+                "[\W]".                                                         // Must not have an alphanum or _ or > before real method
+                '('.implode('|', $this->finderConfig->functions).')'.   // Must start with one of the functions
+                "\(".                                                           // Match opening parenthesis
+                "[\'\"]".                                                       // Match " or '
+                '('.                                                            // Start a new group to match:
+                Config::REGEX_GROUP_FINDER.                                             // Must start with group
+                "([.](?! )[^\1)]+)+".                                           // Be followed by one or more items/keys
+                ')'.                                                            // Close group
+                "[\'\"]".                                                       // Closing quote
+                "[\),]";                                                        // Close parentheses or new parameter
 
             $stringPattern =
-                "[^\w]".                                                // Must not have an alphanum before real method
-                '('.implode('|', $this->finderConfig->functions).')'. // Must start with one of the functions
-                "\(\s*".                                                // Match opening parenthesis
-                "(?P<quote>['\"])".                                     // Match " or ' and Store in {quote}
-                "(?P<string>(?:\\\k{quote}|(?!\k{quote}).)*)".          // Match any string that can be {quote} escaped
-                "\k{quote}".                                            // Match " or ' previously matched
-                "\s*[\),]";                                             // Close parentheses or new parameter
+                "[^\w]".                                                        // Must not have an alphanum before real method
+                '('.implode('|', $this->finderConfig->functions).')'.   // Must start with one of the functions
+                "\(\s*".                                                        // Match opening parenthesis
+                "(?P<quote>['\"])".                                             // Match " or ' and Store in {quote}
+                "(?P<string>(?:\\\k{quote}|(?!\k{quote}).)*)".                  // Match any string that can be {quote} escaped
+                "\k{quote}".                                                    // Match " or ' previously matched
+                "\s*[\),]";                                                     // Close parentheses or new parameter
 
             $finder = new FileFinder();
             $finder->in($this->finderConfig->path)
@@ -104,7 +105,7 @@
 
                 if (preg_match_all("/$stringPattern/siU", $file->getContents(), $matches)) {
                     foreach ($matches['string'] as $index => $translationKey) {
-                        if (preg_match("/(^[a-zA-Z0-9_-]+([.][^\1)\/]+)+$)/siU", $translationKey, $groupMatches)) {
+                        if (preg_match(Config::groupFinder(), $translationKey, $groupMatches)) {
                             // group{.group}.key format, already in group keys but also matched here
                             // do nothing, it has to be treated as a group
                             continue;

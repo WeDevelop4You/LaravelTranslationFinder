@@ -32,6 +32,8 @@
 
         private const SOURCE_TABLE = 'translation_sources';
 
+        public const REGEX_GROUP_FINDER = '[a-zA-Z0-9$_-]+';
+
         /**
          * ConfigBuilder constructor.
          *
@@ -55,6 +57,14 @@
         public static function build(): Config
         {
             return new static();
+        }
+
+        /**
+         * @return string
+         */
+        public static function groupFinder(): string
+        {
+            return '/(^'. self::REGEX_GROUP_FINDER .'([.][^\1)\/]+)+$)/siU';
         }
 
         /**

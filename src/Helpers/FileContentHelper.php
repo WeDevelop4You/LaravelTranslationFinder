@@ -10,11 +10,11 @@
     {
         public const FILE_EXTENSION_PHP = 'php';
 
-        public const FILE_EXTENSION_json = 'json';
+        public const FILE_EXTENSION_JSON = 'json';
 
         public const SUPPORTED_FILE_EXTENSIONS = [
             self::FILE_EXTENSION_PHP,
-            self::FILE_EXTENSION_json,
+            self::FILE_EXTENSION_JSON,
         ];
 
         /**
@@ -35,7 +35,7 @@
                     } catch (FileNotFoundException $e) {
                         return [];
                     }
-                case self::FILE_EXTENSION_json:
+                case self::FILE_EXTENSION_JSON:
                     return json_decode(file_get_contents($fullPath), true);
                 default:
                     throw new UnsupportedFileExtensionException("Packages extension [{$extension}] is not supported");
@@ -57,7 +57,7 @@
                     $content = var_export($translations, true);
 
                     return "<?php\n\nreturn {$content};\n";
-                case self::FILE_EXTENSION_json:
+                case self::FILE_EXTENSION_JSON:
                     return json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
                 default:
                     throw new UnsupportedFileExtensionException("Packages extension [{$extension}] is not supported");

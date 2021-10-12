@@ -218,6 +218,5 @@
              * https://github.com/WeDevelop4You/LaravelTranslationFinder/wiki
              */
             'key_separator' => \WeDevelop4You\TranslationFinder\Helpers\KeySeparatorHelper::class,
-        ],
-
+        ]
     ];

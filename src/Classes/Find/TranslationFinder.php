@@ -49,6 +49,7 @@
         public function __construct()
         {
             $this->config = Config::build();
+            $this->translations = new Collection();
 
             $this->searchInProject();
 
@@ -68,12 +69,14 @@
             $this->saveCounter = new Collection();
 
             $this->config->environments->each(function (Environment $environment) {
-                $name = $environment->name;
+                $this->saveCounter->put($environment->name, 0);
 
-                $project = new ProjectSearcher($environment->finder, $this->config->functions->default, $name);
-                $this->translations = $project->find();
+                $project = new ProjectSearcher($environment->finder, $this->config->functions->default, $environment->name);
+                $project->find()->each(function (TranslationResource $translationResource) {
+                    dump($translationResource);
 
-                $this->saveCounter->put($name, 0);
+                    $this->removeDuplicates($translationResource);
+                });
             });
         }
 

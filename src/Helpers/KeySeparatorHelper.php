@@ -31,7 +31,7 @@
          */
         public static function database(string $environment, string $translationKey): array
         {
-            if (preg_match("/(^[a-zA-Z0-9_-]+([.][^\1)\/]+)+$)/siU", $translationKey, $groupMatches)) {
+            if (preg_match(Config::groupFinder(), $translationKey, $groupMatches)) {
                 return explode('.', $translationKey, 2);
             }
 
