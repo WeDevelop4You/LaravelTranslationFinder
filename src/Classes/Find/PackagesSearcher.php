@@ -67,7 +67,7 @@
         {
             $translations = [];
 
-            $group = pathinfo($path, PATHINFO_EXTENSION) === FileContentHelper::FILE_EXTENSION_json
+            $group = pathinfo($path, PATHINFO_EXTENSION) === FileContentHelper::FILE_EXTENSION_JSON
                 ? Config::DEFAULT_GROUP
                 : pathinfo($path, PATHINFO_FILENAME);
 

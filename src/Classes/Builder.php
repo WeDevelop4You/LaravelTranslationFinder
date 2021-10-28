@@ -117,7 +117,7 @@
             }
 
             if ($group === Config::DEFAULT_GROUP) {
-                $extension = FileContentHelper::FILE_EXTENSION_json;
+                $extension = FileContentHelper::FILE_EXTENSION_JSON;
 
                 $direction = $path;
                 $fullPath = "{$direction}/{$locale}.{$extension}";
