@@ -16,9 +16,10 @@
         }
 
         /**
-         * @param int $id
+         * @param int    $id
          * @param string $path
-         * @throws FileNotFoundException|Exception
+         *
+         * @throws Exception|FileNotFoundException
          */
         public function add(int $id, string $path)
         {
@@ -29,7 +30,9 @@
 
         /**
          * @param int $id
+         *
          * @return false|string
+         *
          * @throws FileNotFoundException
          */
         public function has(int $id)

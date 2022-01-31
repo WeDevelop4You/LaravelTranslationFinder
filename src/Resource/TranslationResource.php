@@ -2,6 +2,7 @@
 
     namespace WeDevelop4You\TranslationFinder\Resource;
 
+    use Illuminate\Support\Arr;
     use Illuminate\Support\Collection;
     use Illuminate\Support\Str;
     use Symfony\Component\Finder\SplFileInfo;
@@ -62,7 +63,7 @@
          */
         public function setTags($tags): void
         {
-            $tags = is_array($tags) ? $tags : [$tags];
+            $tags = Arr::wrap($tags);
 
             foreach ($tags as $tag) {
                 if (!empty($tag)) {
@@ -74,6 +75,7 @@
         /**
          * @param SplFileInfo $file
          * @param $search
+         *
          * @return TranslationResource
          */
         public function findLineNumberInFile(SplFileInfo $file, $search): TranslationResource

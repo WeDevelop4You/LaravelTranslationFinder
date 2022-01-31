@@ -14,9 +14,10 @@
     class Manager
     {
         /**
-         * Search to the hole project for translation keys
+         * Search to the hole project for translation keys.
          *
          * @return Collection
+         *
          * @throws FailedToSearchTranslationsException
          */
         public static function search(): Collection
@@ -31,10 +32,12 @@
         }
 
         /**
-         * publish a specific translation
+         * publish a specific translation.
          *
          * @param TranslationKey $translationKey
+         *
          * @return bool
+         *
          * @throws FailedToBuildTranslationFileException
          */
         public static function publish(TranslationKey $translationKey): bool
@@ -50,9 +53,10 @@
         }
 
         /**
-         * Reset all files and publish all translations
+         * Reset all files and publish all translations.
          *
          * @return bool
+         *
          * @throws FailedToBuildTranslationFileException
          */
         public static function publishAll(): bool

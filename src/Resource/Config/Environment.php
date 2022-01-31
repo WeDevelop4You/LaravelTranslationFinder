@@ -7,7 +7,8 @@
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
 
     /**
-     * Class Environment
+     * Class Environment.
+     *
      * @package WeDevelop4You\TranslationFinder\Resource\Config\Environment
      *
      * @property-read string $name
@@ -18,6 +19,7 @@
     {
         /**
          * Environment constructor.
+         *
          * @throws EnvironmentNotFoundException
          * @throws UnsupportedFileExtensionException
          */
@@ -36,6 +38,7 @@
 
         /**
          * @param $name
+         *
          * @return mixed
          */
         public function __get($name)

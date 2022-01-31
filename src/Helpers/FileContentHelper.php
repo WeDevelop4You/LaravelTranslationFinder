@@ -19,7 +19,9 @@
 
         /**
          * @param string $fullPath
+         *
          * @return array
+         *
          * @throws UnsupportedFileExtensionException
          */
         public static function get(string $fullPath): array
@@ -44,8 +46,10 @@
 
         /**
          * @param string $fullPath
-         * @param array $translations
+         * @param array  $translations
+         *
          * @return string
+         *
          * @throws UnsupportedFileExtensionException
          */
         public static function set(string $fullPath, array $translations): string

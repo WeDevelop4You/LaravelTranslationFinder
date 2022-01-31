@@ -71,18 +71,18 @@
                      *  with a tag where the translation key is found
                      */
                     'finder' => [
-                        'path' => base_path(),
-                        'extension' => '*.php',
+                        'paths' => base_path(),
+                        'extensions' => '*.php',
                         'exclude_paths' => [],
                         'functions' => [
                             '__',
                             'trans',
-                            'trans_choice'
+                            'trans_choice',
                         ],
                         'ignore_groups' => [
-                            'auth'
+                            'auth',
                         ],
-                        'tag' => 'project',
+                        'tags' => 'project',
                     ],
 
                     /*
@@ -103,18 +103,18 @@
 
                 'backend' => [
                     'finder' => [
-                        'path' => app_path(),
-                        'extension' => '*.php',
+                        'paths' => app_path(),
+                        'extensions' => '*.php',
                         'exclude_paths' => [],
                         'functions' => [
                             '__',
                             'trans',
-                            'trans_choice'
+                            'trans_choice',
                         ],
                         'ignore_groups' => [
-                            'auth'
+                            'auth',
                         ],
-                        'tag' => 'project',
+                        'tags' => 'project',
                     ],
 
                     'storage' => [
@@ -125,14 +125,14 @@
 
                 'frontend' => [
                     'finder' => [
-                        'path' => resource_path('js'),
-                        'extension' => '*.vue',
+                        'paths' => resource_path('js'),
+                        'extensions' => '*.vue',
                         'exclude_paths' => [],
                         'functions' => [
                             't',
                         ],
                         'ignore_groups' => [],
-                        'tag' => 'project',
+                        'tags' => 'project',
                     ],
 
                     'storage' => [
@@ -159,7 +159,7 @@
         'database' => [
             'use_database' => false,
 
-            'tag' => 'database',
+            'tags' => 'database',
 
             'default_environment' => 'default',
 
@@ -183,7 +183,7 @@
         'packages' => [
             'use_packages' => false,
 
-            'tag' => 'packages',
+            'tags' => 'packages',
 
             'use_packages_name_tags' => true,
 
@@ -218,5 +218,5 @@
              * https://github.com/WeDevelop4You/LaravelTranslationFinder/wiki
              */
             'key_separator' => \WeDevelop4You\TranslationFinder\Helpers\KeySeparatorHelper::class,
-        ]
+        ],
     ];

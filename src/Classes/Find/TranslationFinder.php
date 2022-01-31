@@ -44,6 +44,7 @@
 
         /**
          * Search constructor.
+         *
          * @throws Exception
          */
         public function __construct()
@@ -131,7 +132,7 @@
         }
 
         /**
-         * @throws FileNotFoundException|ParameterRequiredException|UnsupportedLocaleException|EnvironmentNotFoundException|ExistingTranslationKeyException|Exception
+         * @throws EnvironmentNotFoundException|Exception|ExistingTranslationKeyException|FileNotFoundException|ParameterRequiredException|UnsupportedLocaleException
          */
         private function save(): void
         {

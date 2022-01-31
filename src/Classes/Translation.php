@@ -19,13 +19,15 @@
         public TranslationKey $translationKey;
 
         /**
-         * Creates a new translation key
+         * Creates a new translation key.
          *
-         * @param string $key
-         * @param string $group
+         * @param string      $key
+         * @param string      $group
          * @param string|null $environment
+         *
          * @return Translation
-         * @throws ParameterRequiredException|EnvironmentNotFoundException|ExistingTranslationKeyException
+         *
+         * @throws EnvironmentNotFoundException|ExistingTranslationKeyException|ParameterRequiredException
          */
         public function create(string $key, string $group = Config::DEFAULT_GROUP, ?string $environment = null): Translation
         {
@@ -47,11 +49,13 @@
         }
 
         /**
-         * Adds or updates a translation to a translation key
+         * Adds or updates a translation to a translation key.
          *
-         * @param string $text
+         * @param string      $text
          * @param string|null $locale
+         *
          * @return bool
+         *
          * @throws UnsupportedLocaleException
          * @throws FileNotFoundException|ParameterRequiredException
          */
@@ -78,7 +82,9 @@
 
         /**
          * @param string $tag
+         *
          * @return Translation
+         *
          * @throws ParameterRequiredException
          */
         public function addTag(string $tag): Translation
@@ -92,7 +98,9 @@
 
         /**
          * @param array|null $tags
+         *
          * @return Translation
+         *
          * @throws ParameterRequiredException
          */
         public function updateTags(?array $tags): Translation
@@ -106,7 +114,7 @@
         }
 
         /**
-         * Checks if the translation key doesn't exist anymore in the hole project and then deletes it
+         * Checks if the translation key doesn't exist anymore in the hole project and then deletes it.
          *
          * @throws ParameterRequiredException
          */
@@ -118,9 +126,10 @@
         }
 
         /**
-         * Deletes the translation key
+         * Deletes the translation key.
          *
          * @return bool
+         *
          * @throws ParameterRequiredException
          */
         public function forceDelete(): bool
@@ -131,12 +140,14 @@
         }
 
         /**
-         * Checks if the translation key exists
+         * Checks if the translation key exists.
          *
-         * @param string $key
-         * @param string $group
+         * @param string      $key
+         * @param string      $group
          * @param string|null $environment
+         *
          * @return bool
+         *
          * @throws EnvironmentNotFoundException|ParameterRequiredException
          */
         public function exists(string $key, string $group = Config::DEFAULT_GROUP, ?string $environment = null): bool
@@ -156,12 +167,14 @@
         }
 
         /**
-         * Checks if the translation key doesn't exist
+         * Checks if the translation key doesn't exist.
          *
-         * @param string $key
-         * @param string $group
+         * @param string      $key
+         * @param string      $group
          * @param string|null $environment
+         *
          * @return bool
+         *
          * @throws EnvironmentNotFoundException|ParameterRequiredException
          */
         public function doesNotExist(string $key, string $group = Config::DEFAULT_GROUP, ?string $environment = null): bool

@@ -31,6 +31,7 @@
 
         /**
          * Search constructor.
+         *
          * @throws Exception
          */
         public function __construct(Database $databaseConfig, string $databaseKeySeparator)
@@ -76,7 +77,9 @@
 
         /**
          * @param object $model
+         *
          * @return Collection
+         *
          * @throws EnvironmentNotFoundException
          */
         private function getTranslationEnvironments(object $model): Collection
@@ -85,8 +88,9 @@
         }
 
         /**
-         * @param array $attributes
+         * @param array      $attributes
          * @param Collection $columnEnvironment
+         *
          * @return array
          */
         private function create(array $attributes, Collection $columnEnvironment): array
@@ -101,7 +105,7 @@
                 $translation->group = $group;
                 $translation->key = $key;
 
-                $translation->setTags($this->databaseConfig->tag);
+                $translation->setTags($this->databaseConfig->tags);
 
                 $translations[] = $translation;
             }

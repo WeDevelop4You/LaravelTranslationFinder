@@ -9,6 +9,7 @@
         /**
          * @param string $environment
          * @param string $defaultEnvironment
+         *
          * @return EnvironmentNotFoundException
          */
         final public function setMessageNotDefaultEnvironment(string $environment, string $defaultEnvironment): EnvironmentNotFoundException
@@ -20,6 +21,7 @@
 
         /**
          * @param string $environment
+         *
          * @return EnvironmentNotFoundException
          */
         final public function setMessageEnvironmentDoesNotExist(string $environment): EnvironmentNotFoundException

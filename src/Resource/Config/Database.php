@@ -2,14 +2,16 @@
 
     namespace WeDevelop4You\TranslationFinder\Resource\Config;
 
+    use Illuminate\Support\Arr;
     use WeDevelop4You\TranslationFinder\Classes\Config;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
 
     /**
-     * Class Finder
+     * Class Finder.
+     *
      * @package WeDevelop4You\TranslationFinder\Resource\Config\Database
      *
-     * @property-read string $tag
+     * @property-read array $tags
      * @property-read bool searchModels
      * @property-read string $environment
      */
@@ -19,17 +21,19 @@
          * Database constructor.
          *
          * @param object $config
+         *
          * @throws EnvironmentNotFoundException
          */
         public function __construct(object $config)
         {
-            $this->tag = $config->tag;
+            $this->tags = Arr::wrap($config->tags);
             $this->searchModels = $config->use_database;
             $this->setEnvironment($config->default_environment);
         }
 
         /**
          * @param string $environment
+         *
          * @throws EnvironmentNotFoundException
          */
         private function setEnvironment(string $environment): void
@@ -47,6 +51,7 @@
 
         /**
          * @param $name
+         *
          * @return mixed
          */
         public function __get($name)

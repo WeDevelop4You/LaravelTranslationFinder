@@ -37,6 +37,7 @@
 
         /**
          * Builder constructor.
+         *
          * @param bool $filesNeedsToRebuild
          */
         public function __construct(bool $filesNeedsToRebuild = false)
@@ -51,6 +52,7 @@
 
         /**
          * @param TranslationKey $translationKey
+         *
          * @throws EnvironmentNotFoundException|FileNotFoundException
          */
         public function addTranslationToFile(TranslationKey $translationKey): void
@@ -76,7 +78,9 @@
 
         /**
          * @param string $environment
+         *
          * @return Storage
+         *
          * @throws EnvironmentNotFoundException
          */
         private function getEnvironmentConfig(string $environment): Storage
@@ -92,8 +96,10 @@
 
         /**
          * @param TranslationKey $translationKey
-         * @param string $locale
+         * @param string         $locale
+         *
          * @return string
+         *
          * @throws EnvironmentNotFoundException|FileNotFoundException
          */
         private function createFullPath(TranslationKey $translationKey, string $locale): string

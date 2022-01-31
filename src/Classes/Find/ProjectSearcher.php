@@ -79,10 +79,10 @@
                 "\s*[\),]";                                                     // Close parentheses or new parameter
 
             $finder = new FileFinder();
-            $finder->in($this->finderConfig->path)
+            $finder->in($this->finderConfig->paths)
                 ->exclude(self::DEFAULT_EXCLUDE_PATHS)
                 ->exclude($this->finderConfig->excludePaths)
-                ->name($this->finderConfig->extension)
+                ->name($this->finderConfig->extensions)
                 ->files();
 
             if (App::runningInConsole()) {
@@ -127,8 +127,8 @@
         }
 
         /**
-         * @param string $group
-         * @param string $key
+         * @param string      $group
+         * @param string      $key
          * @param SplFileInfo $file
          * @param $search
          */
@@ -146,7 +146,7 @@
                 $translation->group = $group;
                 $translation->key = $key;
 
-                $translation->setTags($this->finderConfig->tag);
+                $translation->setTags($this->finderConfig->tags);
 
                 $this->translations->push($translation);
             }

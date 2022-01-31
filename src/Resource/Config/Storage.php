@@ -6,7 +6,8 @@
     use WeDevelop4You\TranslationFinder\Exceptions\UnsupportedFileExtensionException;
 
     /**
-     * Class Storage
+     * Class Storage.
+     *
      * @package WeDevelop4You\TranslationFinder\Resource\Config\Environment
      *
      * @property-read string $path
@@ -16,7 +17,9 @@
     {
         /**
          * Storage constructor.
+         *
          * @param object $storageConfig
+         *
          * @throws UnsupportedFileExtensionException
          */
         public function __construct(object $storageConfig)
@@ -27,7 +30,9 @@
 
         /**
          * @param string $extension
+         *
          * @return void
+         *
          * @throws UnsupportedFileExtensionException
          */
         private function createValidExtension(string $extension): void
@@ -43,6 +48,7 @@
 
         /**
          * @param $name
+         *
          * @return mixed
          */
         public function __get($name)

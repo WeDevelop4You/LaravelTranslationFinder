@@ -9,6 +9,7 @@
         /**
          * @param string $environment
          * @param string $translationKey
+         *
          * @return array
          */
         public static function default(string $environment, string $translationKey): array
@@ -27,6 +28,7 @@
         /**
          * @param string $environment
          * @param string $translationKey
+         *
          * @return array
          */
         public static function database(string $environment, string $translationKey): array

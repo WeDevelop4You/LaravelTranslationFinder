@@ -4,9 +4,9 @@
 
     use Illuminate\Support\ServiceProvider;
     use WeDevelop4You\TranslationFinder\Classes\Config;
-use WeDevelop4You\TranslationFinder\Console\Commands\DiscoverTranslationModels;
-use WeDevelop4You\TranslationFinder\Console\Commands\FindTranslations;
-use WeDevelop4You\TranslationFinder\Console\Commands\PublishTranslations;
+    use WeDevelop4You\TranslationFinder\Console\Commands\DiscoverTranslationModels;
+    use WeDevelop4You\TranslationFinder\Console\Commands\FindTranslations;
+    use WeDevelop4You\TranslationFinder\Console\Commands\PublishTranslations;
     use WeDevelop4You\TranslationFinder\Console\Commands\ResetTranslations;
 
     class TranslationFinderServiceProvider extends ServiceProvider

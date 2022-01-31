@@ -10,7 +10,7 @@
     class BootstrapCache
     {
         /**
-         * @var Collection|array
+         * @var array|Collection
          */
         protected $data;
 
@@ -26,8 +26,10 @@
 
         /**
          * @param bool $inCollection
+         *
          * @return array|Collection
-         * @throws FileNotFoundException|Exception
+         *
+         * @throws Exception|FileNotFoundException
          */
         public function get(bool $inCollection = false)
         {
@@ -48,6 +50,7 @@
 
         /**
          * @return BootstrapCache
+         *
          * @throws Exception
          */
         public function set(): BootstrapCache

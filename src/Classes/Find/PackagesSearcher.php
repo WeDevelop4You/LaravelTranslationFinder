@@ -29,7 +29,7 @@
 
         /**
          * @param Packages $packagesConfig
-         * @param string $getFileContent
+         * @param string   $getFileContent
          */
         public function __construct(Packages $packagesConfig, string $getFileContent)
         {
@@ -57,10 +57,11 @@
         }
 
         /**
-         * @param array $content
-         * @param string $path
-         * @param string $environment
+         * @param array       $content
+         * @param string      $path
+         * @param string      $environment
          * @param string|null $extendKey
+         *
          * @return array
          */
         private function create(array $content, string $path, string $environment, ?string $extendKey = null): array
@@ -85,7 +86,7 @@
 
                     $translations = array_merge($translations, $dotTranslations);
                 } else {
-                    $tags[] = $this->packagesConfig->tag;
+                    $tags = $this->packagesConfig->tags;
 
                     if ($this->packagesConfig->usePackagesNameTags) {
                         $tags[] = $packagesName;

@@ -2,16 +2,18 @@
 
     namespace WeDevelop4You\TranslationFinder\Resource\Config;
 
+    use Illuminate\Support\Arr;
     use Illuminate\Support\Collection;
     use WeDevelop4You\TranslationFinder\Exceptions\EnvironmentNotFoundException;
     use WeDevelop4You\TranslationFinder\Exceptions\FileDoesNotExistException;
     use WeDevelop4You\TranslationFinder\Helpers\ValidateHelper;
 
     /**
-     * Class Packages
+     * Class Packages.
+     *
      * @package WeDevelop4You\TranslationFinder\Resource\Config\Database
      *
-     * @property-read string tag
+     * @property-read array tags
      * @property-read Collection $paths
      * @property-read bool getTranslations
      * @property-read bool usePackagesNameTags
@@ -22,11 +24,12 @@
          * Packages constructor.
          *
          * @param object $config
+         *
          * @throws EnvironmentNotFoundException|FileDoesNotExistException
          */
         public function __construct(object $config)
         {
-            $this->tag = $config->tag;
+            $this->tags = Arr::wrap($config->tags);
             $this->getTranslations = $config->use_packages;
             $this->usePackagesNameTags = $config->use_packages_name_tags;
             $this->paths = ValidateHelper::environments($config->paths, $config->default_environment);

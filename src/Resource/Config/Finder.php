@@ -2,15 +2,17 @@
 
     namespace WeDevelop4You\TranslationFinder\Resource\Config;
 
+    use Illuminate\Support\Arr;
     use Illuminate\Support\Str;
 
     /**
-     * Class Finder
+     * Class Finder.
+     *
      * @package WeDevelop4You\TranslationFinder\Resource\Config\Environment
      *
-     * @property-read string $tag
-     * @property-read string $path
-     * @property-read string $extension
+     * @property-read array $tags
+     * @property-read array $paths
+     * @property-read array $extensions
      * @property-read array $excludePaths
      * @property-read array $functions
      * @property-read array $ignoreGroups
@@ -19,34 +21,40 @@
     {
         /**
          * Finder constructor.
+         *
          * @param object $finderConfig
          */
         public function __construct(object $finderConfig)
         {
-            $this->tag = $finderConfig->tag;
-            $this->path = $finderConfig->path;
-            $this->functions = $finderConfig->functions;
-            $this->excludePaths = $finderConfig->exclude_paths;
-            $this->ignoreGroups = $finderConfig->ignore_groups;
-            $this->createValidExtension($finderConfig->extension);
+            $this->tags = Arr::wrap($finderConfig->tags);
+            $this->paths = Arr::wrap($finderConfig->paths);
+            $this->functions = Arr::wrap($finderConfig->functions);
+            $this->excludePaths = Arr::wrap($finderConfig->exclude_paths);
+            $this->ignoreGroups = Arr::wrap($finderConfig->ignore_groups);
+            $this->createValidExtension(Arr::wrap($finderConfig->extensions));
         }
 
         /**
-         * @param string $extension
+         * @param array $extensions
          */
-        private function createValidExtension(string $extension): void
+        private function createValidExtension(array $extensions): void
         {
-            if (!Str::startsWith($extension, '*.')) {
-                $extension = Str::startsWith($extension, '.')
-                    ? "*{$extension}"
-                    : "*.{$extension}";
-            }
+            $this->extensions = [];
 
-            $this->extension = $extension;
+            foreach ($extensions as $extension) {
+                if (!Str::startsWith($extension, '*.')) {
+                    $extension = Str::startsWith($extension, '.')
+                        ? "*{$extension}"
+                        : "*.{$extension}";
+                }
+
+                $this->extensions[] = $extension;
+            }
         }
 
         /**
          * @param $name
+         *
          * @return mixed
          */
         public function __get($name)

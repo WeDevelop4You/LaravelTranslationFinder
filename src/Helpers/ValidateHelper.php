@@ -10,10 +10,12 @@
     class ValidateHelper
     {
         /**
-         * Gets the environment and checks if the environment is valid
+         * Gets the environment and checks if the environment is valid.
          *
          * @param string|null $environment
+         *
          * @return string
+         *
          * @throws EnvironmentNotFoundException|ParameterRequiredException
          */
         public static function environment(?string $environment = null): string
@@ -32,9 +34,11 @@
         }
 
         /**
-         * @param array $data
+         * @param array  $data
          * @param string $defaultEnvironment
+         *
          * @return Collection
+         *
          * @throws EnvironmentNotFoundException
          */
         public static function environments(array $data, string $defaultEnvironment): Collection

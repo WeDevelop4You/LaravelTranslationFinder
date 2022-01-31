@@ -12,17 +12,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * WeDevelop4You\TranslationFinder\Models\TranslationKey
+ * WeDevelop4You\TranslationFinder\Models\TranslationKey.
  *
- * @property int $id
- * @property string $environment
- * @property string $group
- * @property string $key
+ * @property int               $id
+ * @property string            $environment
+ * @property string            $group
+ * @property string            $key
  * @property AsCollection|null $tags
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property Carbon|null       $created_at
+ * @property Carbon|null       $updated_at
  * @property-read Collection|\WeDevelop4You\TranslationFinder\Models\TranslationSource[] $sources
  * @property-read Collection|\WeDevelop4You\TranslationFinder\Models\Translation[] $translations
+ *
  * @method static Builder|TranslationKey newModelQuery()
  * @method static Builder|TranslationKey newQuery()
  * @method static Builder|TranslationKey query()
@@ -70,6 +71,7 @@ class TranslationKey extends Model
 
     /**
      * @param string $locale
+     *
      * @return HasMany|Model|object
      */
     public function getTranslation(string $locale)
@@ -79,6 +81,7 @@ class TranslationKey extends Model
 
     /**
      * @param string $locale
+     *
      * @return Model|object
      */
     public function getOrCreateTranslation(string $locale)

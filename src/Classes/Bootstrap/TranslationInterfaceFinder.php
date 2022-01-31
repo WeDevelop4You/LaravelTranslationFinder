@@ -26,6 +26,7 @@
 
         /**
          * @return TranslationInterfaceFinder
+         *
          * @throws Exception
          */
         public static function run(): TranslationInterfaceFinder

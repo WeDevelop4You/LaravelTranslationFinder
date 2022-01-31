@@ -6,7 +6,8 @@
     use WeDevelop4You\TranslationFinder\Exceptions\MethodNotCallableException;
 
     /**
-     * Class Functions
+     * Class Functions.
+     *
      * @package WeDevelop4You\TranslationFinder\Resource\Config\Functions
      *
      * @property-read callable get
@@ -44,7 +45,7 @@
         }
 
         /**
-         * Checks if functions is callable and creates the function property
+         * Checks if functions is callable and creates the function property.
          *
          * @throws MethodNotCallableException
          */
@@ -61,6 +62,7 @@
 
         /**
          * @param $name
+         *
          * @return mixed
          */
         public function __get($name)

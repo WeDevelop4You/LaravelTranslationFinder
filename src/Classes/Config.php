@@ -14,7 +14,8 @@
     use WeDevelop4You\TranslationFinder\Resource\Config\Packages;
 
     /**
-     * Class ConfigBuilder
+     * Class ConfigBuilder.
+     *
      * @package WeDevelop4You\Translation\Classes
      *
      * @property-read Database database
@@ -37,7 +38,7 @@
         /**
          * ConfigBuilder constructor.
          *
-         * @throws EnvironmentNotFoundException|UnsupportedFileExtensionException|SettingNotAllowedException|FileDoesNotExistException
+         * @throws EnvironmentNotFoundException|FileDoesNotExistException|SettingNotAllowedException|UnsupportedFileExtensionException
          */
         public function __construct()
         {
@@ -50,7 +51,7 @@
         }
 
         /**
-         * Build th hole config
+         * Build th hole config.
          *
          * @return Config
          */
@@ -68,7 +69,7 @@
         }
 
         /**
-         * Gets all environment names
+         * Gets all environment names.
          *
          * @return Collection
          */
@@ -78,7 +79,7 @@
         }
 
         /**
-         * Gets the default locale
+         * Gets the default locale.
          *
          * @return string
          */
@@ -96,7 +97,7 @@
         }
 
         /**
-         * Checks if separated environments is used
+         * Checks if separated environments is used.
          *
          * @return bool
          */
@@ -106,7 +107,7 @@
         }
 
         /**
-         * Creates all properties for the config
+         * Creates all properties for the config.
          */
         private function setProperties(): void
         {
@@ -115,7 +116,7 @@
         }
 
         /**
-         * Gets all functions from the class
+         * Gets all functions from the class.
          */
         private function setFunctions(): void
         {
@@ -123,7 +124,7 @@
         }
 
         /**
-         * Creates all environments for the config
+         * Creates all environments for the config.
          *
          * @throws EnvironmentNotFoundException|UnsupportedFileExtensionException
          */
@@ -142,7 +143,7 @@
         }
 
         /**
-         * Creates database config
+         * Creates database config.
          *
          * @throws EnvironmentNotFoundException
          */
@@ -175,6 +176,7 @@
 
         /**
          * @param $name
+         *
          * @return mixed
          */
         public function __get($name)

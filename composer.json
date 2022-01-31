@@ -27,7 +27,8 @@
     },
     "require-dev": {
         "orchestra/testbench": "^6.21",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "^3.0"
     },
     "autoload": {
         "psr-4": {
@@ -38,6 +39,14 @@
         "psr-4": {
             "WeDevelop4You\\TranslationFinder\\Tests\\": "tests"
         }
+    },
+    "scripts": {
+        "sniff": [
+            "./vendor/bin/php-cs-fixer fix -vvv --config=.php_cs.dist.php --dry-run --show-progress=dots"
+        ],
+        "lint": [
+            "./vendor/bin/php-cs-fixer fix -vvv --config=.php_cs.dist.php --show-progress=dots"
+        ]
     },
     "extra": {
         "laravel": {
