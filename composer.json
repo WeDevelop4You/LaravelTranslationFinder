@@ -20,10 +20,10 @@
     "require": {
         "php": "^7.4|^8.0",
         "ext-json": "*",
-        "symfony/finder": "^5.1",
-        "illuminate/console": "^8.0",
-        "illuminate/database": "^8.0",
-        "illuminate/filesystem": "^8.0"
+        "symfony/finder": "^5.1|^6",
+        "illuminate/console": "^8|^9",
+        "illuminate/database": "^8|^9",
+        "illuminate/filesystem": "^8|^9"
     },
     "require-dev": {
         "orchestra/testbench": "^6.21",
